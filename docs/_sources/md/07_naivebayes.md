@@ -86,7 +86,7 @@ Seluruh fitur dalam dataset ini bersifat kategorikal, sehingga diperlukan proses
 
 Dataset dibaca menggunakan node **CSV Reader** pada KNIME.
 
-![WhatsApp Image 2026-05-05 at 22.40.43.jpeg](5c7f5b93-20ce-41cd-a8f3-ab7677c5b2de.jpeg)
+![WhatsApp Image 2026-05-05 at 22.40.43.jpeg](/img/5c7f5b93-20ce-41cd-a8f3-ab7677c5b2de.jpeg)
 
 ## 4. Penanganan Missing Value
 
@@ -95,7 +95,7 @@ Data kemudian diperiksa menggunakan node **Missing Value** untuk memastikan tida
 Jika ditemukan missing value, maka dilakukan penanganan seperti penghapusan baris atau penggantian nilai.
 
 
-![WhatsApp Image 2026-05-05 at 22.44.25.jpeg](f6888be0-4ed8-49a4-adcb-387e789c52fb.jpeg)
+![WhatsApp Image 2026-05-05 at 22.44.25.jpeg](/img/f6888be0-4ed8-49a4-adcb-387e789c52fb.jpeg)
 
 ## 5. Implementasi Naive Bayes dengan Python
 
@@ -148,7 +148,7 @@ print("\nClassification Report:\n", classification_report(y_test, y_pred))
 
 Berikut adalah hasil prediksi model:
 
-![WhatsApp Image 2026-05-05 at 22.44.25.jpeg](d0540305-6de0-4ec4-9a67-8b9ec679a52d.jpeg)
+![WhatsApp Image 2026-05-05 at 22.44.25.jpeg](/img/d0540305-6de0-4ec4-9a67-8b9ec679a52d.jpeg)
 
 Hasil evaluasi menunjukkan bahwa model memiliki akurasi yang tinggi, sehingga dapat digunakan untuk klasifikasi data dengan baik.
 

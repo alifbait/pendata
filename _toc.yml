@@ -1,9 +1,11 @@
 ﻿format: jb-book
 root: intro
 chapters:
-- file: md/00_panduan-dev
+- file: 00_panduan-dev
   title: "Panduan Pengembangan"
-- file: md/01_mulai-disini
+- file: 01_mulai-disini
   title: "Mulai Menulis"
 - file: md/06_uts
   title: "Laporan UTS Pengantar Data Mining"
+- file: md/07_naivebayes
+  title: "Analisis Data Menggunakan Naive Bayes"
