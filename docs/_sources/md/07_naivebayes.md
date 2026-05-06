@@ -95,7 +95,7 @@ Data kemudian diperiksa menggunakan node **Missing Value** untuk memastikan tida
 Jika ditemukan missing value, maka dilakukan penanganan seperti penghapusan baris atau penggantian nilai.
 
 
-![WhatsApp Image 2026-05-05 at 22.44.25.jpeg](/img/f6888be0-4ed8-49a4-adcb-387e789c52fb.jpeg)
+![WhatsApp Image 2026-05-05 at 22.44.25.jpeg](/img/5c7f5b93-20ce-41cd-a8f3-ab7677c5b2de.jpeg)
 
 ## 5. Implementasi Naive Bayes dengan Python
 

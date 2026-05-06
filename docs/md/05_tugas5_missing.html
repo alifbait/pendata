@@ -1,0 +1,1921 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Proyek Missing Values Inputation + Materi Normalisasi data &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'md/05_tugas5_missing';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Laporan UTS Pengantar Data Mining" href="06_uts.html" />
+    <link rel="prev" title="Perhitungan Jarak Data Campuran" href="04_tugas4_jarak.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../00_panduan-dev.html">Panduan Pengembangan</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../01_mulai-disini.html">Mulai Menulis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01_tugas1.html">Business Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_tugas2.html">Data Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_tugas3.html">Data Preparation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_tugas4_jarak.html">Perhitungan Jarak Data Campuran</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Proyek Missing Values Inputation + Materi Normalisasi data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_uts.html">Laporan UTS Pengantar Data Mining</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_naivebayes.html">Analisis Data Menggunakan Naive Bayes</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/alifbait/pendat" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/alifbait/pendat/issues/new?title=Issue%20on%20page%20%2Fmd/05_tugas5_missing.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/md/05_tugas5_missing.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Proyek Missing Values Inputation + Materi Normalisasi data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-values-dengan-metode-wkn">1. Missing Values dengan Metode WKN</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-similarity-pada-wknn">Rumus Similarity pada WKNN:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#keterangan">Keterangan</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-perhitungan-nilai-imputasi">Rumus Perhitungan Nilai Imputasi</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Keterangan</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-yang-digunakan">Dataset yang digunakan:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-dengan-menggunakan-metode-wknn-secara-manual">Perhitungan dengan menggunakan metode WKNN secara manual</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pengecekan-missing-value-pada-dataset">- Pengecekan Missing Value pada Dataset</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-kolom-yang-akan-dinormalisasi">- Menentukan Kolom yang Akan Dinormalisasi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-data">- Normalisasi Data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-similarity">- Menghitung Similarity</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-penyebut-sum-s-i">- Menghitung Penyebut (<span class="math notranslate nohighlight">\(\sum S_i\)</span>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-pembilang-s-i-times-y-jh">- Menghitung Pembilang (<span class="math notranslate nohighlight">\(S_i \times Y_{jh}\)</span>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-nilai-imputasi">- Hasil Nilai Imputasi</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-wknn-menggunakan-python">Perhitungan WKNN Menggunakan Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mengunggah-dataset">1. Mengunggah Dataset</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-kolom-yang-akan-di-normalisasi">2. Menentukan Kolom yang akan di Normalisasi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3. Normalisasi Data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-data-yang-memiliki-missing-value">4. Menentukan data yang Memiliki Missing Value</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-nilai-similarity-s-i">5. Menghitung Nilai Similarity (<span class="math notranslate nohighlight">\(S_i\)</span>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-penyebut">6. Menghitung Penyebut</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-pembilang">7. Menghitung Pembilang</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-nilai-imputasi">8. Menghitung Nilai Imputasi</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2. Normalisasi Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macam-macam-normalisasi-data">Macam-Macam Normalisasi Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#min-max-normalization">1. Min-Max Normalization</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Keterangan:</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-menggunakan-data-dari-dataset-wine-quality-pada-kolom-alcohol">Contoh: Menggunakan data dari dataset Wine Quality pada kolom <strong>alcohol</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-perhitungan">Langkah perhitungan</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#data-ke-1-9-4">Data ke-1 = 9.4</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#data-ke-2-9-8">Data ke-2 = 9.8</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#data-ke-3-9-8">Data ke-3 = 9.8</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-normalisasi">Hasil Normalisasi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#z-score-normalization">2. Z-Score Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-z-score-normalization">1. Rumus Z-Score Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-menghitung-mean-rata-rata">2. Rumus Menghitung Mean (Rata-rata)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-menghitung-standar-deviasi">3. Rumus Menghitung Standar Deviasi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Contoh: Menggunakan data dari dataset <strong>Wine Quality</strong> pada kolom <strong>alcohol</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-mean-rata-rata">Menghitung Mean (Rata-rata)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-standar-deviasi">Menghitung Standar Deviasi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-nilai-z-score">Menghitung Nilai Z-Score</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-data-ke-1">Perhitungan Data ke-1</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-data-ke-2">Perhitungan Data ke-2</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-data-ke-3">Perhitungan Data ke-3</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Hasil Normalisasi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decimal-scaling-normalization">3. Decimal Scaling Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Contoh: Menggunakan data dari dataset Wine Quality pada kolom <strong>alcohol</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan">Perhitungan</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Hasil Normalisasi</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-normalisasi-data-menggunnakan-sk-learn">Contoh Normalisasi Data Menggunnakan SK_Learn</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">1. Min-Max Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">1. Min-Max Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">2. Z-Score Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">3. Decimal Scaling Normalization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="proyek-missing-values-inputation-materi-normalisasi-data">
+<h1>Proyek Missing Values Inputation + Materi Normalisasi data<a class="headerlink" href="#proyek-missing-values-inputation-materi-normalisasi-data" title="Link to this heading">#</a></h1>
+<section id="missing-values-dengan-metode-wkn">
+<h2>1. Missing Values dengan Metode WKN<a class="headerlink" href="#missing-values-dengan-metode-wkn" title="Link to this heading">#</a></h2>
+<p>Missing values merupakan kondisi dimana terdapat data yang tidak tersedia atau kosong pada suatu atribut dalam dataset. Masalah ini sering terjadi pada proses pengumpulan data dan dapat mempengaruhi hasil analisis jika tidak ditangani dengan baik. Oleh karena itu, diperlukan metode untuk mengisi atau memperkirakan nilai yang hilang tersebut.</p>
+<p>Salah satu metode yang dapat digunakan adalah Weighted K-Nearest Neighbor (WKNN). Metode ini merupakan pengembangan dari algoritma K-Nearest Neighbor (KNN) yang memberikan bobot pada setiap tetangga terdekat berdasarkan jaraknya terhadap data yang memiliki nilai hilang. Semakin dekat jarak suatu data terhadap data yang memiliki missing value, maka bobot yang diberikan akan semakin besar.</p>
+<section id="rumus-similarity-pada-wknn">
+<h3>Rumus Similarity pada WKNN:<a class="headerlink" href="#rumus-similarity-pada-wknn" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+S_i = \frac{1}{\sum (Y_{ih} - Y_{jh})^2}
+\]</div>
+<section id="keterangan">
+<h4>Keterangan<a class="headerlink" href="#keterangan" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong><span class="math notranslate nohighlight">\((S_i)\)</span></strong> : Nilai <em>similarity</em> (tingkat kemiripan) antara data yang memiliki <em>missing value</em> dengan data ke-<span class="math notranslate nohighlight">\((i)\)</span>.<br />
+Nilai ini menunjukkan seberapa mirip kedua data tersebut.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\((Y_{ih})\)</span></strong> : Nilai atribut ke-<span class="math notranslate nohighlight">\((h)\)</span> pada data ke-<span class="math notranslate nohighlight">\((i)\)</span>, yaitu data pembanding yang <strong>tidak memiliki missing value</strong>.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\((Y_{jh})\)</span></strong> : Nilai atribut ke-<span class="math notranslate nohighlight">\((h)\)</span> pada data ke-<span class="math notranslate nohighlight">\((j)\)</span> yang <strong>memiliki missing value</strong>.</p></li>
+</ul>
+</section>
+</section>
+<section id="rumus-perhitungan-nilai-imputasi">
+<h3>Rumus Perhitungan Nilai Imputasi<a class="headerlink" href="#rumus-perhitungan-nilai-imputasi" title="Link to this heading">#</a></h3>
+<p>Setelah nilai <em>similarity</em> diperoleh, nilai imputasi dihitung menggunakan rata-rata berbobot sebagai berikut:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}_{ih} =
+\frac{\sum_{j \in IK_{ih}} s_i(y_j)\, y_{jh}}
+{\sum_{j \in IK_{ih}} s_i(y_j)}
+\]</div>
+<section id="id1">
+<h4>Keterangan<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong><span class="math notranslate nohighlight">\(\hat{y}_{ih}\)</span></strong> : Nilai estimasi atau imputasi untuk atribut ke-<span class="math notranslate nohighlight">\(h\)</span> pada data ke-<span class="math notranslate nohighlight">\(i\)</span> yang memiliki <em>missing value</em>.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(y_{jh}\)</span></strong> : Nilai atribut ke-<span class="math notranslate nohighlight">\(h\)</span> pada data ke-<span class="math notranslate nohighlight">\(j\)</span> yang digunakan sebagai tetangga terdekat.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(s_i(y_j)\)</span></strong> : Nilai <em>similarity</em> (tingkat kemiripan) antara data yang memiliki <em>missing value</em> dengan data tetangga ke-<span class="math notranslate nohighlight">\(j\)</span>.</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(IK_{ih}\)</span></strong> : Himpunan <span class="math notranslate nohighlight">\(k\)</span> tetangga terdekat (<em>nearest neighbors</em>) yang dipilih untuk memperkirakan nilai atribut ke-<span class="math notranslate nohighlight">\(h\)</span> pada data ke-<span class="math notranslate nohighlight">\(i\)</span>.</p></li>
+</ul>
+</section>
+</section>
+<section id="dataset-yang-digunakan">
+<h3>Dataset yang digunakan:<a class="headerlink" href="#dataset-yang-digunakan" title="Link to this heading">#</a></h3>
+<p>Pada proses perhitungan missing value menggunakan metode WKNN dalam Data Mining, digunakan dataset Boston Housing Dataset yang diperoleh dari platform Kaggle. Dataset ini berisi informasi mengenai berbagai faktor yang mempengaruhi harga rumah di wilayah Boston, seperti tingkat kriminalitas, jumlah kamar, tingkat pajak properti, serta faktor lingkungan lainnya. Dataset tersebut terdiri dari beberapa atribut numerik yang dapat digunakan untuk melakukan analisis dan perhitungan jarak antar data. Dalam penelitian ini, dataset housingdata digunakan sebagai contoh data untuk melakukan proses perhitungan similarity dan imputasi nilai yang hilang menggunakan metode Weighted K-Nearest Neighbor (WKNN).</p>
+<p>Dataset dapat diakses melalui tautan berikut:
+<a class="reference external" href="https://www.kaggle.com/datasets/uciml/red-wine-quality-cortez-et-al-2009">https://www.kaggle.com/datasets/uciml/red-wine-quality-cortez-et-al-2009</a></p>
+<p>Penjelasan pada setiap kolom di Dataset tersebut:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Kolom</p></th>
+<th class="head"><p>Keterangan</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>fixed_acidity</p></td>
+<td><p>Tingkat keasaman tetap pada wine yang berasal dari asam organik seperti tartaric acid.</p></td>
+</tr>
+<tr class="row-odd"><td><p>volatile_acidity</p></td>
+<td><p>Kandungan asam yang mudah menguap pada wine. Nilai terlalu tinggi dapat menyebabkan aroma seperti cuka.</p></td>
+</tr>
+<tr class="row-even"><td><p>citric_acid</p></td>
+<td><p>Kandungan asam sitrat dalam wine yang dapat memberikan rasa segar dan meningkatkan stabilitas rasa.</p></td>
+</tr>
+<tr class="row-odd"><td><p>residual_sugar</p></td>
+<td><p>Jumlah gula yang tersisa setelah proses fermentasi selesai.</p></td>
+</tr>
+<tr class="row-even"><td><p>chlorides</p></td>
+<td><p>Konsentrasi garam (natrium klorida) dalam wine.</p></td>
+</tr>
+<tr class="row-odd"><td><p>free_sulfur_dioxide</p></td>
+<td><p>Jumlah sulfur dioksida bebas dalam wine yang berfungsi sebagai antioksidan dan antibakteri.</p></td>
+</tr>
+<tr class="row-even"><td><p>total_sulfur_dioxide</p></td>
+<td><p>Total sulfur dioksida dalam wine, termasuk yang bebas dan yang terikat.</p></td>
+</tr>
+<tr class="row-odd"><td><p>density</p></td>
+<td><p>Kepadatan cairan wine yang dipengaruhi oleh kandungan gula dan alkohol.</p></td>
+</tr>
+<tr class="row-even"><td><p>pH</p></td>
+<td><p>Tingkat keasaman atau kebasaan wine pada skala pH.</p></td>
+</tr>
+<tr class="row-odd"><td><p>sulphates</p></td>
+<td><p>Kandungan senyawa sulfat dalam wine yang dapat meningkatkan stabilitas dan kualitas rasa.</p></td>
+</tr>
+<tr class="row-even"><td><p>alcohol</p></td>
+<td><p>Persentase kandungan alkohol dalam wine.</p></td>
+</tr>
+<tr class="row-odd"><td><p>quality</p></td>
+<td><p>Nilai kualitas wine berdasarkan penilaian sensorik (biasanya pada skala 0–10).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="perhitungan-dengan-menggunakan-metode-wknn-secara-manual">
+<h3>Perhitungan dengan menggunakan metode WKNN secara manual<a class="headerlink" href="#perhitungan-dengan-menggunakan-metode-wknn-secara-manual" title="Link to this heading">#</a></h3>
+<section id="pengecekan-missing-value-pada-dataset">
+<h4>- Pengecekan Missing Value pada Dataset<a class="headerlink" href="#pengecekan-missing-value-pada-dataset" title="Link to this heading">#</a></h4>
+<p>Tahap awal dalam proses ini adalah mengidentifikasi apakah terdapat data yang memiliki nilai hilang (<em>missing value</em>).<br />
+Pada dataset <strong>Wine Quality</strong>, dilakukan pengecekan terhadap seluruh atribut untuk memastikan apakah terdapat nilai yang kosong atau tidak.</p>
+<p>Berdasarkan hasil pengecekan, dataset ini <strong>tidak memiliki missing value</strong>, sehingga seluruh data dapat langsung digunakan dalam proses analisis. Namun, proses pengecekan tetap perlu dilakukan sebagai langkah awal dalam <em>data preprocessing</em> untuk memastikan kualitas data sebelum dilakukan perhitungan lebih lanjut menggunakan metode <strong>Weighted K-Nearest Neighbor (WKNN)</strong>.</p>
+</section>
+<section id="menentukan-kolom-yang-akan-dinormalisasi">
+<h4>- Menentukan Kolom yang Akan Dinormalisasi<a class="headerlink" href="#menentukan-kolom-yang-akan-dinormalisasi" title="Link to this heading">#</a></h4>
+<p>Tahap normalisasi data dilakukan untuk menyamakan skala antar atribut sebelum menghitung nilai <em>similarity</em>.<br />
+Normalisasi penting karena setiap atribut memiliki rentang nilai yang berbeda, sehingga tanpa normalisasi atribut dengan nilai besar dapat mendominasi proses perhitungan jarak.</p>
+<p>Kolom yang dinormalisasi pada dataset <strong>Wine Quality</strong> adalah atribut yang memiliki nilai numerik sebagai berikut:</p>
+<ul class="simple">
+<li><p>fixed_acidity</p></li>
+<li><p>volatile_acidity</p></li>
+<li><p>citric_acid</p></li>
+<li><p>residual_sugar</p></li>
+<li><p>chlorides</p></li>
+<li><p>free_sulfur_dioxide</p></li>
+<li><p>total_sulfur_dioxide</p></li>
+<li><p>density</p></li>
+<li><p>pH</p></li>
+<li><p>sulphates</p></li>
+<li><p>alcohol</p></li>
+</ul>
+<p>Kolom <strong>quality</strong> tidak dinormalisasi karena digunakan sebagai <strong>variabel target</strong> yang merepresentasikan kualitas wine berdasarkan hasil penilaian sensorik.</p>
+</section>
+<section id="normalisasi-data">
+<h4>- Normalisasi Data<a class="headerlink" href="#normalisasi-data" title="Link to this heading">#</a></h4>
+<p>Normalisasi data dilakukan untuk menyamakan skala antar atribut sehingga setiap variabel memiliki rentang nilai yang sebanding.<br />
+Hal ini penting sebelum menghitung nilai <em>similarity</em> pada metode <strong>Weighted K-Nearest Neighbor (WKNN)</strong>, karena atribut dengan rentang nilai besar dapat mendominasi perhitungan jarak.</p>
+<p>Pada penelitian ini digunakan metode <strong>Min-Max Normalization</strong> dengan rumus sebagai berikut:</p>
+<div class="math notranslate nohighlight">
+\[
+x' = \frac{x - x_{min}}{x_{max} - x_{min}}
+\]</div>
+<p>Keterangan:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x\)</span> : nilai data asli</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_{min}\)</span> : nilai minimum pada suatu atribut</p></li>
+<li><p><span class="math notranslate nohighlight">\(x_{max}\)</span> : nilai maksimum pada suatu atribut</p></li>
+<li><p><span class="math notranslate nohighlight">\(x'\)</span> : nilai hasil normalisasi</p></li>
+</ul>
+<p>Berikut contoh beberapa nilai dari dataset <strong>Wine Quality</strong> sebelum dilakukan normalisasi:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>fixed_acidity</p></th>
+<th class="head"><p>volatile_acidity</p></th>
+<th class="head"><p>citric_acid</p></th>
+<th class="head"><p>residual_sugar</p></th>
+<th class="head"><p>chlorides</p></th>
+<th class="head"><p>free_sulfur_dioxide</p></th>
+<th class="head"><p>total_sulfur_dioxide</p></th>
+<th class="head"><p>density</p></th>
+<th class="head"><p>pH</p></th>
+<th class="head"><p>sulphates</p></th>
+<th class="head"><p>alcohol</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>7.4</p></td>
+<td><p>0.70</p></td>
+<td><p>0.00</p></td>
+<td><p>1.9</p></td>
+<td><p>0.076</p></td>
+<td><p>11</p></td>
+<td><p>34</p></td>
+<td><p>0.9978</p></td>
+<td><p>3.51</p></td>
+<td><p>0.56</p></td>
+<td><p>9.4</p></td>
+</tr>
+<tr class="row-odd"><td><p>7.8</p></td>
+<td><p>0.88</p></td>
+<td><p>0.00</p></td>
+<td><p>2.6</p></td>
+<td><p>0.098</p></td>
+<td><p>25</p></td>
+<td><p>67</p></td>
+<td><p>0.9968</p></td>
+<td><p>3.20</p></td>
+<td><p>0.68</p></td>
+<td><p>9.8</p></td>
+</tr>
+<tr class="row-even"><td><p>7.8</p></td>
+<td><p>0.76</p></td>
+<td><p>0.04</p></td>
+<td><p>2.3</p></td>
+<td><p>0.092</p></td>
+<td><p>15</p></td>
+<td><p>54</p></td>
+<td><p>0.9970</p></td>
+<td><p>3.26</p></td>
+<td><p>0.65</p></td>
+<td><p>9.8</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Berikut contoh nilai data setelah dilakukan proses normalisasi:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>fixed_acidity</p></th>
+<th class="head"><p>volatile_acidity</p></th>
+<th class="head"><p>citric_acid</p></th>
+<th class="head"><p>residual_sugar</p></th>
+<th class="head"><p>chlorides</p></th>
+<th class="head"><p>free_sulfur_dioxide</p></th>
+<th class="head"><p>total_sulfur_dioxide</p></th>
+<th class="head"><p>density</p></th>
+<th class="head"><p>pH</p></th>
+<th class="head"><p>sulphates</p></th>
+<th class="head"><p>alcohol</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.247</p></td>
+<td><p>0.397</p></td>
+<td><p>0.000</p></td>
+<td><p>0.068</p></td>
+<td><p>0.107</p></td>
+<td><p>0.140</p></td>
+<td><p>0.098</p></td>
+<td><p>0.567</p></td>
+<td><p>0.606</p></td>
+<td><p>0.137</p></td>
+<td><p>0.153</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.283</p></td>
+<td><p>0.521</p></td>
+<td><p>0.000</p></td>
+<td><p>0.116</p></td>
+<td><p>0.164</p></td>
+<td><p>0.338</p></td>
+<td><p>0.246</p></td>
+<td><p>0.494</p></td>
+<td><p>0.338</p></td>
+<td><p>0.214</p></td>
+<td><p>0.215</p></td>
+</tr>
+<tr class="row-even"><td><p>0.283</p></td>
+<td><p>0.438</p></td>
+<td><p>0.024</p></td>
+<td><p>0.095</p></td>
+<td><p>0.149</p></td>
+<td><p>0.197</p></td>
+<td><p>0.187</p></td>
+<td><p>0.508</p></td>
+<td><p>0.390</p></td>
+<td><p>0.195</p></td>
+<td><p>0.215</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Nilai hasil normalisasi berada pada rentang <strong>0 sampai 1</strong>, sehingga setiap atribut memiliki skala yang sama dan dapat digunakan secara adil dalam proses perhitungan <em>similarity</em> pada metode <strong>WKNN</strong>.</p>
+</section>
+<section id="menghitung-similarity">
+<h4>- Menghitung Similarity<a class="headerlink" href="#menghitung-similarity" title="Link to this heading">#</a></h4>
+<p>Setelah proses normalisasi selesai dilakukan, tahap berikutnya adalah menghitung nilai <em>similarity</em> antar data.<br />
+Perhitungan ini bertujuan untuk mengetahui tingkat kemiripan antara data yang memiliki nilai yang ingin diprediksi dengan data lainnya pada dataset <strong>Wine Quality</strong>.</p>
+<p>Dalam penelitian ini, nilai <em>similarity</em> dihitung menggunakan pendekatan berbasis jarak Euclidean yang kemudian diubah menjadi nilai kemiripan menggunakan rumus berikut:</p>
+<div class="math notranslate nohighlight">
+\[
+S_i = \frac{1}{\sum (Y_{ih} - Y_{jh})^2}
+\]</div>
+<p>Keterangan:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(S_i\)</span> : Nilai similarity antara data yang dibandingkan</p></li>
+<li><p><span class="math notranslate nohighlight">\(Y_{ih}\)</span> : Nilai atribut ke-<span class="math notranslate nohighlight">\(h\)</span> pada data ke-<span class="math notranslate nohighlight">\(i\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(Y_{jh}\)</span> : Nilai atribut ke-<span class="math notranslate nohighlight">\(h\)</span> pada data ke-<span class="math notranslate nohighlight">\(j\)</span></p></li>
+</ul>
+<p>Perhitungan dilakukan menggunakan atribut numerik pada dataset Wine Quality, yaitu:</p>
+<ul class="simple">
+<li><p>fixed_acidity</p></li>
+<li><p>volatile_acidity</p></li>
+<li><p>citric_acid</p></li>
+<li><p>residual_sugar</p></li>
+<li><p>chlorides</p></li>
+<li><p>free_sulfur_dioxide</p></li>
+<li><p>total_sulfur_dioxide</p></li>
+<li><p>density</p></li>
+<li><p>pH</p></li>
+<li><p>sulphates</p></li>
+<li><p>alcohol</p></li>
+</ul>
+<p>Berikut contoh hasil perhitungan nilai <em>similarity</em> antara data yang dibandingkan dengan beberapa data lainnya pada dataset:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Si</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.083214</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.146782</p></td>
+</tr>
+<tr class="row-even"><td><p>0.219534</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.964812</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Nilai similarity yang lebih besar menunjukkan bahwa dua data memiliki tingkat kemiripan yang lebih tinggi.<br />
+Nilai-nilai tersebut kemudian digunakan untuk menentukan <strong>tetangga terdekat (nearest neighbors)</strong> dalam proses perhitungan menggunakan metode <strong>Weighted K-Nearest Neighbor (WKNN)</strong>.</p>
+</section>
+<section id="menghitung-penyebut-sum-s-i">
+<h4>- Menghitung Penyebut (<span class="math notranslate nohighlight">\(\sum S_i\)</span>)<a class="headerlink" href="#menghitung-penyebut-sum-s-i" title="Link to this heading">#</a></h4>
+<p>Setelah nilai <em>similarity</em> antar data pada dataset <strong>Wine Quality</strong> dihitung, langkah berikutnya adalah menjumlahkan seluruh nilai similarity tersebut.<br />
+Penjumlahan ini digunakan untuk mendapatkan nilai penyebut pada rumus imputasi metode <strong>Weighted K-Nearest Neighbor (WKNN)</strong>.</p>
+<p>Nilai similarity dihitung antara satu data wine yang menjadi data acuan dengan beberapa data wine lainnya pada dataset berdasarkan atribut numerik berikut:</p>
+<ul class="simple">
+<li><p>fixed_acidity</p></li>
+<li><p>volatile_acidity</p></li>
+<li><p>citric_acid</p></li>
+<li><p>residual_sugar</p></li>
+<li><p>chlorides</p></li>
+<li><p>free_sulfur_dioxide</p></li>
+<li><p>total_sulfur_dioxide</p></li>
+<li><p>density</p></li>
+<li><p>pH</p></li>
+<li><p>sulphates</p></li>
+<li><p>alcohol</p></li>
+</ul>
+<p>Sebagai contoh, setelah menghitung similarity antara satu data wine dengan empat data wine terdekat lainnya pada dataset, diperoleh nilai sebagai berikut:</p>
+<div class="math notranslate nohighlight">
+\[
+S_1 = 0.083214
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+S_2 = 0.146782
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+S_3 = 0.219534
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+S_4 = 0.964812
+\]</div>
+<p>Nilai similarity tersebut kemudian dijumlahkan untuk mendapatkan nilai penyebut:</p>
+<div class="math notranslate nohighlight">
+\[
+\sum S_i = 0.083214 + 0.146782 + 0.219534 + 0.964812
+\]</div>
+<p>Sehingga diperoleh:</p>
+<div class="math notranslate nohighlight">
+\[
+\sum S_i = 1.414342
+\]</div>
+<p>Nilai <span class="math notranslate nohighlight">\(\sum S_i\)</span> ini kemudian digunakan sebagai <strong>penyebut pada rumus imputasi WKNN</strong>, yang berfungsi untuk menormalisasi bobot dari setiap tetangga terdekat sebelum menghitung nilai estimasi pada atribut yang memiliki nilai hilang.</p>
+</section>
+<section id="menghitung-pembilang-s-i-times-y-jh">
+<h4>- Menghitung Pembilang (<span class="math notranslate nohighlight">\(S_i \times Y_{jh}\)</span>)<a class="headerlink" href="#menghitung-pembilang-s-i-times-y-jh" title="Link to this heading">#</a></h4>
+<p>Selanjutnya dihitung perkalian antara nilai <em>similarity</em> dengan nilai atribut dari tetangga terdekat pada dataset <strong>Wine Quality</strong>.</p>
+<p>Perhitungan ini dilakukan untuk mendapatkan nilai pembilang pada rumus imputasi metode <strong>Weighted K-Nearest Neighbor (WKNN)</strong>.</p>
+<p>Rumus perkalian:</p>
+<div class="math notranslate nohighlight">
+\[
+S_i \times Y_{jh}
+\]</div>
+<p>Keterangan:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(S_i\)</span> : Nilai similarity antara data acuan dengan data ke-<span class="math notranslate nohighlight">\(i\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(Y_{jh}\)</span> : Nilai atribut ke-<span class="math notranslate nohighlight">\(h\)</span> pada data tetangga ke-<span class="math notranslate nohighlight">\(j\)</span></p></li>
+</ul>
+<p>Berikut contoh hasil perkalian antara nilai similarity dengan nilai atribut dari beberapa tetangga terdekat:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(S_i\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(Y_{jh}\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(S_i \times Y_{jh}\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0.083214</p></td>
+<td><p>0.421</p></td>
+<td><p>0.035044</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.146782</p></td>
+<td><p>0.563</p></td>
+<td><p>0.082637</p></td>
+</tr>
+<tr class="row-even"><td><p>0.219534</p></td>
+<td><p>0.318</p></td>
+<td><p>0.069813</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.964812</p></td>
+<td><p>0.105</p></td>
+<td><p>0.101305</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Setiap hasil perkalian tersebut kemudian dijumlahkan untuk memperoleh nilai pembilang:</p>
+<div class="math notranslate nohighlight">
+\[
+\sum (S_i \times Y_{jh})
+\]</div>
+<p>Sehingga diperoleh:</p>
+<div class="math notranslate nohighlight">
+\[
+\sum (S_i \times Y_{jh}) = 0.288799
+\]</div>
+<p>Nilai pembilang ini selanjutnya digunakan dalam proses perhitungan nilai estimasi atau imputasi pada metode <strong>Weighted K-Nearest Neighbor (WKNN)</strong> dengan membagi jumlah pembilang dengan jumlah nilai similarity (<span class="math notranslate nohighlight">\(\sum S_i\)</span>).</p>
+</section>
+<section id="hasil-nilai-imputasi">
+<h4>- Hasil Nilai Imputasi<a class="headerlink" href="#hasil-nilai-imputasi" title="Link to this heading">#</a></h4>
+<p>Nilai imputasi diperoleh dengan membagi jumlah pembilang dengan jumlah penyebut yang telah dihitung sebelumnya pada metode <strong>Weighted K-Nearest Neighbor (WKNN)</strong>.</p>
+<p>Rumus imputasi:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}_{ih} =
+\frac{\sum (S_i \times Y_{jh})}{\sum S_i}
+\]</div>
+<p>Berdasarkan hasil perhitungan sebelumnya diperoleh:</p>
+<ul class="simple">
+<li><p>Jumlah pembilang</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\sum (S_i \times Y_{jh}) = 0.288799
+\]</div>
+<ul class="simple">
+<li><p>Jumlah penyebut</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\sum S_i = 1.414342
+\]</div>
+<p>Sehingga nilai imputasi dapat dihitung sebagai berikut:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}_{ih} =
+\frac{0.288799}{1.414342}
+\]</div>
+<p>Hasil nilai imputasi yang diperoleh adalah:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{y}_{ih} = 0.20417
+\]</div>
+<p>Nilai tersebut merupakan nilai estimasi untuk atribut yang memiliki <em>missing value</em> pada data yang dianalisis di dataset <strong>Wine Quality</strong> menggunakan metode <strong>Weighted K-Nearest Neighbor (WKNN)</strong>.</p>
+</section>
+</section>
+<section id="perhitungan-wknn-menggunakan-python">
+<h3>Perhitungan WKNN Menggunakan Python<a class="headerlink" href="#perhitungan-wknn-menggunakan-python" title="Link to this heading">#</a></h3>
+<p>Setelah menggunakan Microsoft Excel untuk perhitungan manual, proses imputasi missing value juga diterapkan melalui pemrograman Python. Pendekatan ini digunakan untuk memastikan keakuratan hasil perhitungan serta mempermudah proses pengolahan dataset.</p>
+<section id="mengunggah-dataset">
+<h4>1. Mengunggah Dataset<a class="headerlink" href="#mengunggah-dataset" title="Link to this heading">#</a></h4>
+<p>Dataset diunggah ke Google Colab kemudian dibaca menggunakan library pandas pada Python. Setelah itu data ditampilkan untuk melihat isi dataset yang akan digunakan.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinMaxScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">pairwise_distances</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;winequality-red.csv&quot;</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;?&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data Awal:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Data Awal:
+      fixed acidity  volatile acidity  citric acid  residual sugar  chlorides  \
+0               7.4             0.700         0.00             1.9      0.076   
+1               7.8             0.880         0.00             2.6      0.098   
+2               7.8             0.760         0.04             2.3      0.092   
+3              11.2             0.280         0.56             1.9      0.075   
+4               7.4             0.700         0.00             1.9      0.076   
+...             ...               ...          ...             ...        ...   
+1594            6.2             0.600         0.08             2.0      0.090   
+1595            5.9             0.550         0.10             2.2      0.062   
+1596            6.3             0.510         0.13             2.3      0.076   
+1597            5.9             0.645         0.12             2.0      0.075   
+1598            6.0             0.310         0.47             3.6      0.067   
+
+      free sulfur dioxide  total sulfur dioxide  density    pH  sulphates  \
+0                    11.0                  34.0  0.99780  3.51       0.56   
+1                    25.0                  67.0  0.99680  3.20       0.68   
+2                    15.0                  54.0  0.99700  3.26       0.65   
+3                    17.0                  60.0  0.99800  3.16       0.58   
+4                    11.0                  34.0  0.99780  3.51       0.56   
+...                   ...                   ...      ...   ...        ...   
+1594                 32.0                  44.0  0.99490  3.45       0.58   
+1595                 39.0                  51.0  0.99512  3.52       0.76   
+1596                 29.0                  40.0  0.99574  3.42       0.75   
+1597                 32.0                  44.0  0.99547  3.57       0.71   
+1598                 18.0                  42.0  0.99549  3.39       0.66   
+
+      alcohol  quality  
+0         9.4        5  
+1         9.8        5  
+2         9.8        5  
+3         9.8        6  
+4         9.4        5  
+...       ...      ...  
+1594     10.5        5  
+1595     11.2        6  
+1596     11.0        6  
+1597     10.2        5  
+1598     11.0        6  
+
+[1599 rows x 12 columns]
+</pre></div>
+</div>
+</section>
+<section id="menentukan-kolom-yang-akan-di-normalisasi">
+<h4>2. Menentukan Kolom yang akan di Normalisasi<a class="headerlink" href="#menentukan-kolom-yang-akan-di-normalisasi" title="Link to this heading">#</a></h4>
+<p>Pada tahap ini ditentukan atribut yang akan digunakan dalam proses normalisasi.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cols_norm</span> <span class="o">=</span> <span class="p">[</span>
+<span class="s1">&#39;fixed acidity&#39;</span><span class="p">,</span><span class="s1">&#39;volatile acidity&#39;</span><span class="p">,</span><span class="s1">&#39;citric acid&#39;</span><span class="p">,</span><span class="s1">&#39;residual sugar&#39;</span><span class="p">,</span>
+<span class="s1">&#39;chlorides&#39;</span><span class="p">,</span><span class="s1">&#39;free sulfur dioxide&#39;</span><span class="p">,</span><span class="s1">&#39;total sulfur dioxide&#39;</span><span class="p">,</span>
+<span class="s1">&#39;density&#39;</span><span class="p">,</span><span class="s1">&#39;pH&#39;</span><span class="p">,</span><span class="s1">&#39;sulphates&#39;</span><span class="p">,</span><span class="s1">&#39;alcohol&#39;</span>
+<span class="p">]</span>
+
+<span class="n">min_val</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cols_norm</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">max_val</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cols_norm</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MIN VALUE : &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">min_val</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">30</span><span class="o">*</span><span class="s1">&#39;=&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MAX VALUE : &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">max_val</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>MIN VALUE : 
+fixed acidity           4.60000
+volatile acidity        0.12000
+citric acid             0.00000
+residual sugar          0.90000
+chlorides               0.01200
+free sulfur dioxide     1.00000
+total sulfur dioxide    6.00000
+density                 0.99007
+pH                      2.74000
+sulphates               0.33000
+alcohol                 8.40000
+dtype: float64
+==============================
+MAX VALUE : 
+fixed acidity            15.90000
+volatile acidity          1.58000
+citric acid               1.00000
+residual sugar           15.50000
+chlorides                 0.61100
+free sulfur dioxide      72.00000
+total sulfur dioxide    289.00000
+density                   1.00369
+pH                        4.01000
+sulphates                 2.00000
+alcohol                  14.90000
+dtype: float64
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h4>3. Normalisasi Data<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<p>Normalisasi dilakukan dengan menggunakan metode Min-Max Normalization</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df_norm</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols_norm</span><span class="p">:</span>
+    <span class="n">df_norm</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">-</span> <span class="n">min_val</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">max_val</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">-</span> <span class="n">min_val</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DATA SETELAH NORMALISASI&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_norm</span><span class="p">)</span>
+
+<span class="n">df_norm</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;alcohol&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>DATA SETELAH NORMALISASI
+      fixed acidity  volatile acidity  citric acid  residual sugar  chlorides  \
+0          0.247788          0.397260         0.00        0.068493   0.106845   
+1          0.283186          0.520548         0.00        0.116438   0.143573   
+2          0.283186          0.438356         0.04        0.095890   0.133556   
+3          0.584071          0.109589         0.56        0.068493   0.105175   
+4          0.247788          0.397260         0.00        0.068493   0.106845   
+...             ...               ...          ...             ...        ...   
+1594       0.141593          0.328767         0.08        0.075342   0.130217   
+1595       0.115044          0.294521         0.10        0.089041   0.083472   
+1596       0.150442          0.267123         0.13        0.095890   0.106845   
+1597       0.115044          0.359589         0.12        0.075342   0.105175   
+1598       0.123894          0.130137         0.47        0.184932   0.091820   
+
+      free sulfur dioxide  total sulfur dioxide   density        pH  \
+0                0.140845              0.098940  0.567548  0.606299   
+1                0.338028              0.215548  0.494126  0.362205   
+2                0.197183              0.169611  0.508811  0.409449   
+3                0.225352              0.190813  0.582232  0.330709   
+4                0.140845              0.098940  0.567548  0.606299   
+...                   ...                   ...       ...       ...   
+1594             0.436620              0.134276  0.354626  0.559055   
+1595             0.535211              0.159011  0.370778  0.614173   
+1596             0.394366              0.120141  0.416300  0.535433   
+1597             0.436620              0.134276  0.396476  0.653543   
+1598             0.239437              0.127208  0.397944  0.511811   
+
+      sulphates   alcohol  quality  
+0      0.137725  0.153846        5  
+1      0.209581  0.215385        5  
+2      0.191617  0.215385        5  
+3      0.149701  0.215385        6  
+4      0.137725  0.153846        5  
+...         ...       ...      ...  
+1594   0.149701  0.323077        5  
+1595   0.257485  0.430769        6  
+1596   0.251497  0.400000        6  
+1597   0.227545  0.276923        5  
+1598   0.197605  0.400000        6  
+
+[1599 rows x 12 columns]
+</pre></div>
+</div>
+</section>
+<section id="menentukan-data-yang-memiliki-missing-value">
+<h4>4. Menentukan data yang Memiliki Missing Value<a class="headerlink" href="#menentukan-data-yang-memiliki-missing-value" title="Link to this heading">#</a></h4>
+<p>Tahap ini melakukan identifikasi data yang memiliki nilai kosong pada atribut alcohol.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">missing_index</span> <span class="o">=</span> <span class="n">df_norm</span><span class="p">[</span><span class="n">df_norm</span><span class="p">[</span><span class="s1">&#39;alcohol&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span><span class="o">.</span><span class="n">index</span>
+
+<span class="n">row_missing</span> <span class="o">=</span> <span class="n">df_norm</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">missing_index</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;alcohol&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">complete_data</span> <span class="o">=</span> <span class="n">df_norm</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="menghitung-nilai-similarity-s-i">
+<h4>5. Menghitung Nilai Similarity (<span class="math notranslate nohighlight">\(S_i\)</span>)<a class="headerlink" href="#menghitung-nilai-similarity-s-i" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Si</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">Yjh</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">complete_data</span><span class="p">)):</span>
+
+    <span class="n">row</span> <span class="o">=</span> <span class="n">complete_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;alcohol&#39;</span><span class="p">)</span>
+
+    <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">row_missing</span> <span class="o">-</span> <span class="n">row</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">sum_diff</span> <span class="o">=</span> <span class="n">diff</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">sum_diff</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">similarity</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">similarity</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">sum_diff</span>
+
+    <span class="n">Si</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">similarity</span><span class="p">)</span>
+    <span class="n">Yjh</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">complete_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;alcohol&#39;</span><span class="p">])</span>
+
+<span class="n">Si</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Si</span><span class="p">)</span>
+<span class="n">Yjh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Yjh</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nilai Si :&quot;</span><span class="p">,</span> <span class="n">Si</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Nilai Si : [ 7.00695894 16.86940241  0.62447889 ...  0.86984737  6.18099727
+  0.72823315]
+</pre></div>
+</div>
+</section>
+<section id="menghitung-penyebut">
+<h4>6. Menghitung Penyebut<a class="headerlink" href="#menghitung-penyebut" title="Link to this heading">#</a></h4>
+<p>Penyebut diperoleh dari jumlah seluruh nilai similarity.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">penyebut</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Si</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Penyebut:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">penyebut</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Penyebut:
+7160.466680220721
+</pre></div>
+</div>
+</section>
+<section id="menghitung-pembilang">
+<h4>7. Menghitung Pembilang<a class="headerlink" href="#menghitung-pembilang" title="Link to this heading">#</a></h4>
+<p>Pembilang diperoleh dari hasil perkalian similarity dengan nilai atribut tetangga.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Si_Yjh</span> <span class="o">=</span> <span class="n">Si</span> <span class="o">*</span> <span class="n">Yjh</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Si * Yjh:&quot;</span><span class="p">,</span> <span class="n">Si_Yjh</span><span class="p">)</span>
+
+<span class="n">pembilang</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Si_Yjh</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pembilang:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pembilang</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Si * Yjh: [1.50919116 3.63340975 0.13450314 ... 0.34793895 1.71166078 0.29129326]
+Pembilang:
+1601.1560812392804
+</pre></div>
+</div>
+</section>
+<section id="menghitung-nilai-imputasi">
+<h4>8. Menghitung Nilai Imputasi<a class="headerlink" href="#menghitung-nilai-imputasi" title="Link to this heading">#</a></h4>
+<p>Nilai imputasi dihitung menggunakan rumus Weighted K-Nearest</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hasil</span> <span class="o">=</span> <span class="n">pembilang</span> <span class="o">/</span> <span class="n">penyebut</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hasil Akhir:&quot;</span><span class="p">,</span> <span class="n">hasil</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Hasil Akhir: 0.22361057634164214
+</pre></div>
+</div>
+<p>Nilai yang diperoleh dari proses imputasi digunakan untuk menggantikan data yang hilang pada atribut LSTAT, sehingga dataset menjadi utuh dan dapat diproses lebih lanjut.</p>
+</section>
+</section>
+</section>
+<section id="id3">
+<h2>2. Normalisasi Data<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>Dalam Data Mining, normalisasi data adalah salah satu teknik persiapan data (data preprocessing) yang digunakan untuk mengubah atau menyesuaikan skala nilai pada data numerik agar berada pada rentang atau skala yang sama. Proses ini bertujuan agar setiap atribut dalam dataset memiliki pengaruh yang seimbang ketika diproses oleh algoritma dalam machine learning atau data mining. Normalisasi penting dilakukan karena dalam sebuah dataset sering terdapat perbedaan rentang nilai yang cukup besar antar atribut, sehingga dengan normalisasi proses analisis dapat menjadi lebih akurat dan efektif.</p>
+<section id="macam-macam-normalisasi-data">
+<h3>Macam-Macam Normalisasi Data<a class="headerlink" href="#macam-macam-normalisasi-data" title="Link to this heading">#</a></h3>
+<section id="min-max-normalization">
+<h4>1. Min-Max Normalization<a class="headerlink" href="#min-max-normalization" title="Link to this heading">#</a></h4>
+<p>Dalam Data Mining, normalisasi Min-Max merupakan metode yang digunakan untuk mengubah nilai data numerik ke dalam rentang tertentu, biasanya pada interval [0,1]. Proses ini dilakukan dengan memanfaatkan nilai minimum dan maksimum dari suatu atribut, kemudian setiap nilai data disesuaikan agar berada pada skala baru yang telah ditentukan.</p>
+<p>Berikut rumus dari Min-Max Normalization:</p>
+<div class="math notranslate nohighlight">
+\[
+v' = \frac{v - min_A}{max_A - min_A}
+\]</div>
+<section id="id4">
+<h5>Keterangan:<a class="headerlink" href="#id4" title="Link to this heading">#</a></h5>
+<ul class="simple">
+<li><p><strong>v</strong> = nilai asli data</p></li>
+<li><p><strong>v’</strong> = nilai setelah normalisasi</p></li>
+<li><p><strong>minA</strong> = nilai minimum atribut A</p></li>
+<li><p><strong>maxA</strong> = nilai maksimum atribut A</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="contoh-menggunakan-data-dari-dataset-wine-quality-pada-kolom-alcohol">
+<h4>Contoh: Menggunakan data dari dataset Wine Quality pada kolom <strong>alcohol</strong><a class="headerlink" href="#contoh-menggunakan-data-dari-dataset-wine-quality-pada-kolom-alcohol" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>alcohol</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>9.4</p></td>
+</tr>
+<tr class="row-odd"><td><p>9.8</p></td>
+</tr>
+<tr class="row-even"><td><p>9.8</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Nilai minimum dan maksimum dari data tersebut adalah:</p>
+<ul class="simple">
+<li><p>Minimum = <strong>9.4</strong></p></li>
+<li><p>Maksimum = <strong>9.8</strong></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="langkah-perhitungan">
+<h4>Langkah perhitungan<a class="headerlink" href="#langkah-perhitungan" title="Link to this heading">#</a></h4>
+<section id="data-ke-1-9-4">
+<h5>Data ke-1 = 9.4<a class="headerlink" href="#data-ke-1-9-4" title="Link to this heading">#</a></h5>
+<div class="math notranslate nohighlight">
+\[
+v' = \frac{9.4 - 9.4}{9.8 - 9.4}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+v' = \frac{0}{0.4}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+v' = 0
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="data-ke-2-9-8">
+<h5>Data ke-2 = 9.8<a class="headerlink" href="#data-ke-2-9-8" title="Link to this heading">#</a></h5>
+<div class="math notranslate nohighlight">
+\[
+v' = \frac{9.8 - 9.4}{9.8 - 9.4}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+v' = \frac{0.4}{0.4}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+v' = 1
+\]</div>
+</section>
+<hr class="docutils" />
+<section id="data-ke-3-9-8">
+<h5>Data ke-3 = 9.8<a class="headerlink" href="#data-ke-3-9-8" title="Link to this heading">#</a></h5>
+<div class="math notranslate nohighlight">
+\[
+v' = \frac{9.8 - 9.4}{9.8 - 9.4}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+v' = \frac{0.4}{0.4}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+v' = 1
+\]</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="hasil-normalisasi">
+<h4>Hasil Normalisasi<a class="headerlink" href="#hasil-normalisasi" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>alcohol</p></th>
+<th class="head"><p>alcohol Normalisasi</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>9.4</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>9.8</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>9.8</p></td>
+<td><p>1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="z-score-normalization">
+<h4>2. Z-Score Normalization<a class="headerlink" href="#z-score-normalization" title="Link to this heading">#</a></h4>
+<p>Z-Score Normalization merupakan metode normalisasi yang mengubah nilai suatu atribut berdasarkan rata-rata (mean) dan simpangan baku (standard deviation) dari atribut tersebut. Metode ini sering digunakan ketika normalisasi min–max kurang sesuai, misalnya ketika nilai minimum dan maksimum tidak diketahui atau ketika dataset mengandung outlier. Pada metode ini, setiap nilai data dihitung dengan cara mengurangi nilai tersebut dengan rata-rata atribut, kemudian dibagi dengan simpangan baku. Hasil transformasi ini membuat data memiliki rata-rata 0 dan simpangan baku 1.</p>
+<p>Berikut rumus dari Z-score Normalization:</p>
+</section>
+<section id="rumus-z-score-normalization">
+<h4>1. Rumus Z-Score Normalization<a class="headerlink" href="#rumus-z-score-normalization" title="Link to this heading">#</a></h4>
+<p>[
+v’ = \frac{v - \bar{A}}{\sigma_A}
+]</p>
+<p><strong>Keterangan:</strong></p>
+<ul class="simple">
+<li><p>(v) = nilai asli data</p></li>
+<li><p>(v’) = nilai setelah normalisasi</p></li>
+<li><p>(\bar{A}) = rata-rata (mean) dari atribut A</p></li>
+<li><p>(\sigma_A) = standar deviasi dari atribut A</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="rumus-menghitung-mean-rata-rata">
+<h4>2. Rumus Menghitung Mean (Rata-rata)<a class="headerlink" href="#rumus-menghitung-mean-rata-rata" title="Link to this heading">#</a></h4>
+<p>[
+\mu = \frac{1}{n} \sum_{i=1}^{n} v_i
+]</p>
+<p><strong>Keterangan:</strong></p>
+<ul class="simple">
+<li><p>(\mu) = nilai rata-rata (mean)</p></li>
+<li><p>(n) = jumlah data</p></li>
+<li><p>(v_i) = nilai data ke-i</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="rumus-menghitung-standar-deviasi">
+<h4>3. Rumus Menghitung Standar Deviasi<a class="headerlink" href="#rumus-menghitung-standar-deviasi" title="Link to this heading">#</a></h4>
+<p>[
+\sigma = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(v_i - \mu)^2}
+]</p>
+<p><strong>Keterangan:</strong></p>
+<ul class="simple">
+<li><p>(\sigma) = standar deviasi</p></li>
+<li><p>(\mu) = rata-rata data</p></li>
+<li><p>(v_i) = nilai data ke-i</p></li>
+<li><p>(n) = jumlah data</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="id5">
+<h4>Contoh: Menggunakan data dari dataset <strong>Wine Quality</strong> pada kolom <strong>alcohol</strong><a class="headerlink" href="#id5" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>alcohol</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>9.4</p></td>
+</tr>
+<tr class="row-odd"><td><p>9.8</p></td>
+</tr>
+<tr class="row-even"><td><p>9.8</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="menghitung-mean-rata-rata">
+<h4>Menghitung Mean (Rata-rata)<a class="headerlink" href="#menghitung-mean-rata-rata" title="Link to this heading">#</a></h4>
+<p>[
+\mu = \frac{9.4 + 9.8 + 9.8}{3}
+]</p>
+<p>[
+\mu = \frac{29}{3}
+]</p>
+<p>[
+\mu = 9.67
+]</p>
+</section>
+<hr class="docutils" />
+<section id="menghitung-standar-deviasi">
+<h4>Menghitung Standar Deviasi<a class="headerlink" href="#menghitung-standar-deviasi" title="Link to this heading">#</a></h4>
+<p>Hitung selisih kuadrat tiap data terhadap mean:</p>
+<p>[
+(9.4 - 9.67)^2 = 0.0729
+]</p>
+<p>[
+(9.8 - 9.67)^2 = 0.0169
+]</p>
+<p>[
+(9.8 - 9.67)^2 = 0.0169
+]</p>
+<p>Jumlahkan:</p>
+<p>[
+0.0729 + 0.0169 + 0.0169 = 0.1067
+]</p>
+<p>Bagi jumlah data:</p>
+<p>[
+\frac{0.1067}{3} = 0.0356
+]</p>
+<p>Ambil akar:</p>
+<p>[
+\sigma = \sqrt{0.0356}
+]</p>
+<p>[
+\sigma = 0.189
+]</p>
+</section>
+<hr class="docutils" />
+<section id="menghitung-nilai-z-score">
+<h4>Menghitung Nilai Z-Score<a class="headerlink" href="#menghitung-nilai-z-score" title="Link to this heading">#</a></h4>
+<p>Mean = <strong>9.67</strong><br />
+Standar deviasi = <strong>0.189</strong></p>
+</section>
+<hr class="docutils" />
+<section id="perhitungan-data-ke-1">
+<h4>Perhitungan Data ke-1<a class="headerlink" href="#perhitungan-data-ke-1" title="Link to this heading">#</a></h4>
+<p>[
+v’ = \frac{9.4 - 9.67}{0.189}
+]</p>
+<p>[
+v’ = \frac{-0.27}{0.189}
+]</p>
+<p>[
+v’ = -1.43
+]</p>
+</section>
+<hr class="docutils" />
+<section id="perhitungan-data-ke-2">
+<h4>Perhitungan Data ke-2<a class="headerlink" href="#perhitungan-data-ke-2" title="Link to this heading">#</a></h4>
+<p>[
+v’ = \frac{9.8 - 9.67}{0.189}
+]</p>
+<p>[
+v’ = \frac{0.13}{0.189}
+]</p>
+<p>[
+v’ = 0.69
+]</p>
+</section>
+<hr class="docutils" />
+<section id="perhitungan-data-ke-3">
+<h4>Perhitungan Data ke-3<a class="headerlink" href="#perhitungan-data-ke-3" title="Link to this heading">#</a></h4>
+<p>[
+v’ = \frac{9.8 - 9.67}{0.189}
+]</p>
+<p>[
+v’ = \frac{0.13}{0.189}
+]</p>
+<p>[
+v’ = 0.69
+]</p>
+</section>
+<hr class="docutils" />
+<section id="id6">
+<h4>Hasil Normalisasi<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>alcohol</p></th>
+<th class="head"><p>alcohol Normalisasi</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>9.4</p></td>
+<td><p>-1.43</p></td>
+</tr>
+<tr class="row-odd"><td><p>9.8</p></td>
+<td><p>0.69</p></td>
+</tr>
+<tr class="row-even"><td><p>9.8</p></td>
+<td><p>0.69</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="decimal-scaling-normalization">
+<h4>3. Decimal Scaling Normalization<a class="headerlink" href="#decimal-scaling-normalization" title="Link to this heading">#</a></h4>
+<p>Dalam Data Mining, decimal scaling normalization merupakan metode normalisasi yang dilakukan dengan mengubah nilai atribut numerik melalui pergeseran titik desimal. Proses ini dilakukan dengan membagi setiap nilai data dengan pangkat sepuluh tertentu, sehingga nilai absolut dari data menjadi lebih kecil.</p>
+<p>Tujuan dari metode ini adalah agar nilai absolut terbesar dalam atribut menjadi lebih kecil dari 1 setelah proses transformasi dilakukan. Besarnya pembagi ditentukan oleh nilai (j), yaitu bilangan bulat terkecil yang membuat nilai maksimum dari atribut tersebut berada di bawah 1 setelah dibagi dengan (10^j). Metode decimal scaling termasuk teknik normalisasi yang sederhana dan mudah diterapkan karena hanya memerlukan operasi pembagian tanpa mengubah pola hubungan antar nilai dalam dataset.</p>
+<p>Berikut rumus dari Decimal Scaling Normalization:</p>
+<p>[
+v’ = \frac{v}{10^j}
+]</p>
+<p><strong>Keterangan:</strong></p>
+<ul class="simple">
+<li><p>(v) = nilai asli data</p></li>
+<li><p>(v’) = nilai setelah normalisasi</p></li>
+<li><p>(j) = bilangan bulat terkecil yang membuat nilai maksimum data menjadi kurang dari 1</p></li>
+<li><p>(10^j) = faktor pembagi untuk menggeser titik desimal</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="id7">
+<h4>Contoh: Menggunakan data dari dataset Wine Quality pada kolom <strong>alcohol</strong><a class="headerlink" href="#id7" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>alcohol</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>9.4</p></td>
+</tr>
+<tr class="row-odd"><td><p>9.8</p></td>
+</tr>
+<tr class="row-even"><td><p>9.8</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr class="docutils" />
+<ul>
+<li><p>Menentukan nilai maksimum<br />
+Nilai terbesar dari data adalah <strong>9.8</strong></p></li>
+<li><p>Menentukan nilai (j)<br />
+Nilai (j) dipilih sehingga nilai maksimum setelah dibagi (10^j) menjadi kurang dari 1.</p>
+<p>Karena nilai maksimum memiliki <strong>1 digit sebelum desimal</strong>, maka:</p>
+</li>
+</ul>
+<p>[
+j = 1
+]</p>
+<ul class="simple">
+<li><p>Melakukan normalisasi</p></li>
+</ul>
+<p>Karena (j = 1), maka setiap data dibagi dengan <strong>10</strong></p>
+</section>
+<hr class="docutils" />
+<section id="perhitungan">
+<h4>Perhitungan<a class="headerlink" href="#perhitungan" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>alcohol</p></th>
+<th class="head"><p>Perhitungan</p></th>
+<th class="head"><p>Hasil</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>9.4</p></td>
+<td><p>9.4 / 10</p></td>
+<td><p>0.94</p></td>
+</tr>
+<tr class="row-odd"><td><p>9.8</p></td>
+<td><p>9.8 / 10</p></td>
+<td><p>0.98</p></td>
+</tr>
+<tr class="row-even"><td><p>9.8</p></td>
+<td><p>9.8 / 10</p></td>
+<td><p>0.98</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="id8">
+<h4>Hasil Normalisasi<a class="headerlink" href="#id8" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>alcohol</p></th>
+<th class="head"><p>alcohol Normalisasi</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>9.4</p></td>
+<td><p>0.94</p></td>
+</tr>
+<tr class="row-odd"><td><p>9.8</p></td>
+<td><p>0.98</p></td>
+</tr>
+<tr class="row-even"><td><p>9.8</p></td>
+<td><p>0.98</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="contoh-normalisasi-data-menggunnakan-sk-learn">
+<h3>Contoh Normalisasi Data Menggunnakan SK_Learn<a class="headerlink" href="#contoh-normalisasi-data-menggunnakan-sk-learn" title="Link to this heading">#</a></h3>
+<p>Normalisasi data juga dapat dilakukan menggunakan library scikit-learn pada bahasa pemrograman Python. Library ini menyediakan berbagai fungsi yang memudahkan proses normalisasi data, seperti Min-Max Normalization dan Z-Score Normalization. Dengan menggunakan scikit-learn, proses normalisasi dapat dilakukan secara otomatis tanpa perlu menghitung rumus secara manual, sehingga lebih efisien dan meminimalkan kesalahan dalam perhitungan pada analisis Data Mining.</p>
+<section id="id9">
+<h4>1. Min-Max Normalization<a class="headerlink" href="#id9" title="Link to this heading">#</a></h4>
+<p>Contoh: Menggunakan data dari dataset <strong>Wine Quality</strong> pada kolom <strong>alcohol</strong></p>
+</section>
+<section id="id10">
+<h4>1. Min-Max Normalization<a class="headerlink" href="#id10" title="Link to this heading">#</a></h4>
+<p>Contoh: Menggunakan data dari dataset Wine Quality pada kolom alcohol</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>alcohol</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>9.4</p></td>
+</tr>
+<tr class="row-odd"><td><p>9.8</p></td>
+</tr>
+<tr class="row-even"><td><p>9.8</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Penyelesaian dengan menggunakan kode python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinMaxScaler</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">28.7</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">22.9</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">27.1</span><span class="p">]])</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">(</span><span class="n">feature_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">normalized</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data setelah normalisasi:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">normalized</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Data setelah normalisasi:
+[[1.        ]
+ [0.        ]
+ [0.72413793]]
+</pre></div>
+</div>
+<p>Normalisasi data dilakukan menggunakan metode Min-Max Normalization dengan bantuan library scikit-learn pada Python. Proses normalisasi dilakukan menggunakan fungsi MinMaxScaler() yang mengubah nilai data ke dalam rentang 0 sampai 1. Dari hasil normalisasi terlihat bahwa nilai terkecil menjadi 0 dan nilai terbesar menjadi 1, sehingga semua data berada pada skala yang sama.</p>
+</section>
+<section id="id11">
+<h4>2. Z-Score Normalization<a class="headerlink" href="#id11" title="Link to this heading">#</a></h4>
+<p>Contoh: Menggunakan data dari dataset Wine Quality pada kolom alcohol</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>alcohol</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>9.4</p></td>
+</tr>
+<tr class="row-odd"><td><p>9.8</p></td>
+</tr>
+<tr class="row-even"><td><p>9.8</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Penyelesaian dengan menggunakan kode python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">9.4</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">9.8</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">9.8</span><span class="p">]])</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+
+<span class="n">X_zscore</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Z-Score Normalization:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_zscore</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Z-Score Normalization:
+[[-1.41421356]
+ [ 0.70710678]
+ [ 0.70710678]]
+</pre></div>
+</div>
+<p>Pada metode Z-Score Normalization, normalisasi dilakukan dengan menggunakan nilai rata-rata (mean) dan simpangan baku (standard deviation) dari dataset. Berdasarkan hasil normalisasi menggunakan library scikit-learn, nilai data yang berada di bawah rata-rata memiliki nilai negatif, sedangkan nilai yang berada di atas rata-rata memiliki nilai positif. Setelah proses normalisasi dilakukan, data menjadi terstandarisasi dengan rata-rata mendekati 0 sehingga distribusi data menjadi lebih seimbang untuk proses analisis lebih lanjut.</p>
+</section>
+<section id="id12">
+<h4>3. Decimal Scaling Normalization<a class="headerlink" href="#id12" title="Link to this heading">#</a></h4>
+<p>Contoh: Menggunakan data dari dataset Wine Quality pada kolom alcohol</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>alcohol</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>9.4</p></td>
+</tr>
+<tr class="row-odd"><td><p>9.8</p></td>
+</tr>
+<tr class="row-even"><td><p>9.8</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Penyelesaian dengan menggunakan kode python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">9.4</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">9.8</span><span class="p">],</span>
+              <span class="p">[</span><span class="mf">9.8</span><span class="p">]])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">decimal_scaling</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+    <span class="n">max_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">max_val</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">X</span> <span class="o">/</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="n">j</span><span class="p">)</span>
+
+<span class="n">decimal</span> <span class="o">=</span> <span class="n">decimal_scaling</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Decimal Scaling Normalization:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">decimal</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Decimal Scaling Normalization:
+[[0.94]
+ [0.98]
+ [0.98]]
+</pre></div>
+</div>
+<p>Pada metode Decimal Scaling Normalization, normalisasi dilakukan dengan cara membagi nilai data menggunakan pangkat sepuluh tertentu (10^j) sehingga nilai maksimum data menjadi lebih kecil dari 1. Berdasarkan hasil normalisasi, nilai data yang semula berkisar antara 9.4 hingga 9.8 berubah menjadi 0.094 hingga 0.098. Perubahan ini tidak mengubah hubungan antar data, tetapi hanya mengubah skala nilainya menjadi lebih kecil sehingga data menjadi lebih mudah digunakan dalam proses analisis pada Data Mining.</p>
+<p>Ringkasan Hasilnya:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Nilai asli</p></th>
+<th class="head"><p>Min-Max Normalization</p></th>
+<th class="head"><p>Z-Score Normalization</p></th>
+<th class="head"><p>Decimal Scaling Normalization</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>9.4</p></td>
+<td><p>0</p></td>
+<td><p>-1.43</p></td>
+<td><p>0.094</p></td>
+</tr>
+<tr class="row-odd"><td><p>9.8</p></td>
+<td><p>1</p></td>
+<td><p>0.69</p></td>
+<td><p>0.098</p></td>
+</tr>
+<tr class="row-even"><td><p>9.8</p></td>
+<td><p>1</p></td>
+<td><p>0.69</p></td>
+<td><p>0.098</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Pada contoh ini dilakukan normalisasi data menggunakan beberapa metode normalisasi dalam Data Mining, yaitu Min-Max Normalization, Z-Score Normalization, dan Decimal Scaling Normalization. Proses normalisasi dilakukan menggunakan library scikit-learn untuk metode Min-Max dan Z-Score, sedangkan metode Decimal Scaling dibuat menggunakan fungsi sendiri dalam Python. Hasil normalisasi menunjukkan bahwa setiap metode mengubah skala data dengan cara yang berbeda, namun tujuan utamanya adalah membuat data berada pada skala yang lebih seragam sehingga memudahkan proses analisis data.</p>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./md"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="04_tugas4_jarak.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Perhitungan Jarak Data Campuran</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="06_uts.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Laporan UTS Pengantar Data Mining</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-values-dengan-metode-wkn">1. Missing Values dengan Metode WKN</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-similarity-pada-wknn">Rumus Similarity pada WKNN:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#keterangan">Keterangan</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-perhitungan-nilai-imputasi">Rumus Perhitungan Nilai Imputasi</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Keterangan</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset-yang-digunakan">Dataset yang digunakan:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-dengan-menggunakan-metode-wknn-secara-manual">Perhitungan dengan menggunakan metode WKNN secara manual</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pengecekan-missing-value-pada-dataset">- Pengecekan Missing Value pada Dataset</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-kolom-yang-akan-dinormalisasi">- Menentukan Kolom yang Akan Dinormalisasi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-data">- Normalisasi Data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-similarity">- Menghitung Similarity</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-penyebut-sum-s-i">- Menghitung Penyebut (<span class="math notranslate nohighlight">\(\sum S_i\)</span>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-pembilang-s-i-times-y-jh">- Menghitung Pembilang (<span class="math notranslate nohighlight">\(S_i \times Y_{jh}\)</span>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-nilai-imputasi">- Hasil Nilai Imputasi</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-wknn-menggunakan-python">Perhitungan WKNN Menggunakan Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mengunggah-dataset">1. Mengunggah Dataset</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-kolom-yang-akan-di-normalisasi">2. Menentukan Kolom yang akan di Normalisasi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3. Normalisasi Data</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-data-yang-memiliki-missing-value">4. Menentukan data yang Memiliki Missing Value</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-nilai-similarity-s-i">5. Menghitung Nilai Similarity (<span class="math notranslate nohighlight">\(S_i\)</span>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-penyebut">6. Menghitung Penyebut</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-pembilang">7. Menghitung Pembilang</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-nilai-imputasi">8. Menghitung Nilai Imputasi</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2. Normalisasi Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#macam-macam-normalisasi-data">Macam-Macam Normalisasi Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#min-max-normalization">1. Min-Max Normalization</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Keterangan:</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-menggunakan-data-dari-dataset-wine-quality-pada-kolom-alcohol">Contoh: Menggunakan data dari dataset Wine Quality pada kolom <strong>alcohol</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-perhitungan">Langkah perhitungan</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#data-ke-1-9-4">Data ke-1 = 9.4</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#data-ke-2-9-8">Data ke-2 = 9.8</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#data-ke-3-9-8">Data ke-3 = 9.8</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-normalisasi">Hasil Normalisasi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#z-score-normalization">2. Z-Score Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-z-score-normalization">1. Rumus Z-Score Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-menghitung-mean-rata-rata">2. Rumus Menghitung Mean (Rata-rata)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-menghitung-standar-deviasi">3. Rumus Menghitung Standar Deviasi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Contoh: Menggunakan data dari dataset <strong>Wine Quality</strong> pada kolom <strong>alcohol</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-mean-rata-rata">Menghitung Mean (Rata-rata)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-standar-deviasi">Menghitung Standar Deviasi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-nilai-z-score">Menghitung Nilai Z-Score</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-data-ke-1">Perhitungan Data ke-1</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-data-ke-2">Perhitungan Data ke-2</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan-data-ke-3">Perhitungan Data ke-3</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Hasil Normalisasi</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decimal-scaling-normalization">3. Decimal Scaling Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Contoh: Menggunakan data dari dataset Wine Quality pada kolom <strong>alcohol</strong></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#perhitungan">Perhitungan</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Hasil Normalisasi</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-normalisasi-data-menggunnakan-sk-learn">Contoh Normalisasi Data Menggunnakan SK_Learn</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">1. Min-Max Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">1. Min-Max Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">2. Z-Score Normalization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">3. Decimal Scaling Normalization</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alif Baiatur Ridhwan El Habibie
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,5 +1,5 @@
 # Laporan UTS Pengantar Data Mining
-# Klasifikasi Kesuburan Tanah Menggunakan K-Nearest Neighbor (KNN)
+## Klasifikasi Kesuburan Tanah Menggunakan K-Nearest Neighbor (KNN)
 
 ---
 

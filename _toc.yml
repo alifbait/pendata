@@ -5,6 +5,16 @@ chapters:
   title: "Panduan Pengembangan"
 - file: 01_mulai-disini
   title: "Mulai Menulis"
+- file: md/01_tugas1
+  title: "Business Understanding"
+- file: md/02_tugas2
+  title: "Data Understanding"
+- file: md/03_tugas3
+  title: "Data Preparation"
+- file: md/04_tugas4_jarak
+  title: "Perhitungan Jarak Data Campuran"
+- file: md/05_tugas5_missing
+  title: "Proyek Missing Values Inputation + Materi Normalisasi data"
 - file: md/06_uts
   title: "Laporan UTS Pengantar Data Mining"
 - file: md/07_naivebayes
