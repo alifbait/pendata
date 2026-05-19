@@ -1,0 +1,1307 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Analisa Data Menggunakan Random Forest untuk Prediksi pada Dataset Heart Disease &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'md/09_random_forest';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Analisis Data Menggunakan Naive Bayes" href="07_naivebayes.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Mata kuliah Penambangan Data
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_tugas1.html">Business Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_tugas2.html">Data Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_tugas3.html">Data Preparation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_tugas4_jarak.html">Perhitungan Jarak Data Campuran</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_tugas5_missing.html">Proyek Missing Values Inputation + Materi Normalisasi data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_uts.html">Laporan UTS Pengantar Data Mining</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_naivebayes.html">Analisis Data Menggunakan Naive Bayes</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analisa Data Menggunakan Random Forest untuk Prediksi pada Dataset Heart Disease</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/alifbait/pendat" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/alifbait/pendat/issues/new?title=Issue%20on%20page%20%2Fmd/09_random_forest.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/md/09_random_forest.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Analisa Data Menggunakan Random Forest untuk Prediksi pada Dataset Heart Disease</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pendahuluan">1. Pendahuluan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deskripsi-dataset">2. Deskripsi Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atribut-numerik">2.1 Atribut Numerik</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-knime">3. Workflow KNIME</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-node-pada-workflow-knime">4. Penjelasan Node pada Workflow KNIME</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-csv-reader">A. CSV Reader</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-missing-value">B. Missing Value</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-table-partitioner">C. Table Partitioner</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-decision-tree-training-dan-testing">D. Decision Tree Training dan Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#python-script-training-decision-tree">1. Python Script Training Decision Tree</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-kode-python-script-training-decision-tree">Penjelasan Kode Python Script Training Decision Tree</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#python-script-testing-decision-tree">2. Python Script Testing Decision Tree</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#scorer-decision-tree">3. Scorer Decision Tree</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#e-node-random-forest">E. Node Random Forest</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#python-script-training-random-forest">1. Python Script Training Random Forest</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-kode-python-script-training-random-forest">Penjelasan Kode Python Script Training Random Forest</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#python-script-testing-random-forest">2. Python Script Testing Random Forest</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-kode-python-script-testing-random-forest">Penjelasan Kode Python Script Testing Random Forest</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#scorer-random-forest">3. Scorer Random Forest</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perbandingan-hasil-decision-tree-dan-random-forest">5. Perbandingan Hasil Decision Tree dan Random Forest</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-evaluasi-decision-tree">5.1 Hasil Evaluasi Decision Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-evaluasi-random-forest">5.2 Hasil Evaluasi Random Forest</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tabel-perbandingan">5.3 Tabel Perbandingan</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-hasil">5.4 Analisis Hasil</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">6. Kesimpulan</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analisa-data-menggunakan-random-forest-untuk-prediksi-pada-dataset-heart-disease">
+<h1>Analisa Data Menggunakan Random Forest untuk Prediksi pada Dataset Heart Disease<a class="headerlink" href="#analisa-data-menggunakan-random-forest-untuk-prediksi-pada-dataset-heart-disease" title="Link to this heading">#</a></h1>
+<section id="pendahuluan">
+<h2>1. Pendahuluan<a class="headerlink" href="#pendahuluan" title="Link to this heading">#</a></h2>
+<p>Pada penelitian ini dilakukan analisa data menggunakan algoritma Random Forest untuk memprediksi kemungkinan seseorang mengalami diabetes berdasarkan data kesehatan pasien. Proses analisis dilakukan menggunakan aplikasi KNIME serta bantuan Python Script Legacy untuk membangun model klasifikasi dan melakukan evaluasi hasil prediksi.</p>
+<p>Dataset yang digunakan adalah Diabetes Dataset. Dataset ini berisi berbagai informasi medis pasien seperti jumlah kehamilan, kadar glukosa, tekanan darah, ketebalan kulit, kadar insulin, indeks massa tubuh (BMI), fungsi silsilah diabetes, hingga usia pasien yang dapat digunakan untuk menentukan apakah seseorang memiliki risiko diabetes atau tidak.</p>
+<p>Target klasifikasi yang digunakan adalah:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Nilai</p></th>
+<th class="head"><p>Keterangan</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Pasien terindikasi memiliki diabetes</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>Pasien tidak memiliki diabetes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Tujuan dari penelitian ini adalah:</p>
+<ol class="arabic simple">
+<li><p>Membangun model klasifikasi menggunakan algoritma Random Forest</p></li>
+<li><p>Melakukan proses prediksi diabetes berdasarkan data pasien</p></li>
+<li><p>Menganalisis performa model Random Forest dalam klasifikasi data</p></li>
+<li><p>Mengevaluasi hasil prediksi menggunakan confusion matrix dan nilai akurasi</p></li>
+<li><p>Mengetahui tingkat efektivitas algoritma Random Forest pada dataset Diabetes</p></li>
+</ol>
+</section>
+<section id="deskripsi-dataset">
+<h2>2. Deskripsi Dataset<a class="headerlink" href="#deskripsi-dataset" title="Link to this heading">#</a></h2>
+<p>Dataset yang digunakan pada penelitian ini adalah Diabetes Dataset yang berisi data kesehatan pasien untuk memprediksi kemungkinan seseorang mengalami diabetes. Dataset terdiri dari beberapa atribut numerik yang digunakan sebagai parameter dalam proses klasifikasi menggunakan algoritma Decision Tree dan Random Forest.</p>
+<section id="atribut-numerik">
+<h3>2.1 Atribut Numerik<a class="headerlink" href="#atribut-numerik" title="Link to this heading">#</a></h3>
+<p>Atribut numerik merupakan atribut yang memiliki nilai berupa angka dan dapat dilakukan proses perhitungan matematis. Berikut atribut numerik yang digunakan pada dataset Diabetes:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>No</p></th>
+<th class="head"><p>Nama Atribut</p></th>
+<th class="head"><p>Deskripsi</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Pregnancies</p></td>
+<td><p>Jumlah kehamilan pasien</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Glucose</p></td>
+<td><p>Kadar glukosa dalam darah</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>BloodPressure</p></td>
+<td><p>Tekanan darah pasien</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>SkinThickness</p></td>
+<td><p>Ketebalan lipatan kulit trisep</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Insulin</p></td>
+<td><p>Kadar insulin dalam darah</p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td><p>BMI</p></td>
+<td><p>Indeks massa tubuh pasien</p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td><p>DiabetesPedigreeFunction</p></td>
+<td><p>Fungsi silsilah riwayat diabetes</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>Age</p></td>
+<td><p>Usia pasien</p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td><p>Outcome</p></td>
+<td><p>Target klasifikasi diabetes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Keterangan target klasifikasi:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Nilai</p></th>
+<th class="head"><p>Keterangan</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Pasien memiliki diabetes</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>Pasien tidak memiliki diabetes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Seluruh atribut pada dataset ini berbentuk numerik sehingga dapat langsung digunakan pada proses klasifikasi menggunakan algoritma Decision Tree dan Random Forest tanpa perlu melakukan konversi data kategorikal.</p>
+</section>
+</section>
+<section id="workflow-knime">
+<h2>3. Workflow KNIME<a class="headerlink" href="#workflow-knime" title="Link to this heading">#</a></h2>
+<p>Pada workflow ini digunakan beberapa node utama untuk membangun model klasifikasi menggunakan algoritma Decision Tree dan Random Forest pada dataset Diabetes. Workflow dibuat menggunakan aplikasi KNIME dengan bantuan Python Script Legacy untuk proses training dan testing model.</p>
+<p>Setiap node memiliki fungsi yang berbeda, mulai dari membaca dataset, menangani missing value, membagi data training dan testing, melakukan proses klasifikasi, hingga mengevaluasi hasil prediksi menggunakan confusion matrix.</p>
+<p>Workflow yang digunakan secara umum adalah:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>CSV Reader
+    ↓
+Missing Value
+    ↓
+Table Partitioner
+    ├── Python Script Training Decision Tree
+    ├── Python Script Testing Decision Tree  →  Scorer Decision Tree
+    ├── Python Script Training Random Forest
+    └── Python Script Testing Random Forest  →  Scorer Random Forest
+</pre></div>
+</div>
+<p>Berikut merupakan workflow KNIME yang digunakan:</p>
+<p><img alt="Workflow KNIME Diabetes" src="../_images/11_workflow.png" /></p>
+</section>
+<section id="penjelasan-node-pada-workflow-knime">
+<h2>4. Penjelasan Node pada Workflow KNIME<a class="headerlink" href="#penjelasan-node-pada-workflow-knime" title="Link to this heading">#</a></h2>
+<p>Dalam workflow KNIME yang digunakan pada penelitian ini terdapat beberapa node utama yang berfungsi untuk membantu proses analisis data dan pembangunan model klasifikasi menggunakan algoritma Decision Tree dan Random Forest. Setiap node memiliki peran masing-masing mulai dari membaca dataset, mengolah data, membagi data training dan testing, melakukan prediksi, hingga mengevaluasi performa model.</p>
+<p>Node-node yang digunakan pada workflow ini bekerja secara berurutan sehingga proses klasifikasi dapat berjalan dengan baik dan menghasilkan prediksi yang lebih akurat terhadap data diabetes.</p>
+<section id="a-csv-reader">
+<h3>A. CSV Reader<a class="headerlink" href="#a-csv-reader" title="Link to this heading">#</a></h3>
+<p>Node <strong>CSV Reader</strong> digunakan untuk membaca dataset Diabetes yang berformat <code class="docutils literal notranslate"><span class="pre">.csv</span></code> ke dalam workflow KNIME. Pada node ini dataset diambil dari lokasi penyimpanan file kemudian seluruh atribut dan data akan ditampilkan dalam bentuk tabel.</p>
+<p>Dataset yang digunakan memiliki total <strong>768 baris data</strong> dan <strong>9 atribut</strong> yang terdiri dari atribut input serta target klasifikasi diabetes.</p>
+<p>Atribut yang terbaca pada dataset antara lain:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Pregnancies</span><span class="p">,</span> <span class="n">Glucose</span><span class="p">,</span> <span class="n">BloodPressure</span><span class="p">,</span> <span class="n">SkinThickness</span><span class="p">,</span>
+<span class="n">Insulin</span><span class="p">,</span> <span class="n">BMI</span><span class="p">,</span> <span class="n">DiabetesPedigreeFunction</span><span class="p">,</span> <span class="n">Age</span><span class="p">,</span> <span class="n">Outcome</span>
+</pre></div>
+</div>
+<p>Node CSV Reader menjadi tahap awal dalam workflow karena seluruh proses preprocessing, training, testing, dan evaluasi model akan menggunakan data yang dibaca dari node ini.</p>
+<p>Berikut tampilan node CSV Reader pada KNIME:</p>
+<p><img alt="Dataset CSV" src="../_images/12_csv.png" /></p>
+</section>
+<section id="b-missing-value">
+<h3>B. Missing Value<a class="headerlink" href="#b-missing-value" title="Link to this heading">#</a></h3>
+<p>Node <strong>Missing Value</strong> digunakan untuk memeriksa dan menangani data yang kosong atau missing value pada dataset Diabetes sebelum dilakukan proses training dan testing model.</p>
+<p>Berdasarkan hasil pemeriksaan pada node Missing Value, seluruh atribut pada dataset memiliki nilai missing value sebesar <strong>0</strong>, sehingga tidak ditemukan data kosong pada dataset yang digunakan. Hal ini menunjukkan bahwa dataset sudah lengkap dan dapat langsung digunakan pada proses klasifikasi menggunakan algoritma Decision Tree dan Random Forest.</p>
+<p>Contoh hasil pemeriksaan data pada node Missing Value:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Jumlah</span> <span class="n">data</span>    <span class="p">:</span> <span class="mi">768</span> <span class="n">baris</span>
+<span class="n">Jumlah</span> <span class="n">atribut</span> <span class="p">:</span> <span class="mi">9</span> <span class="n">kolom</span>
+<span class="n">Missing</span> <span class="n">value</span>  <span class="p">:</span> <span class="mi">0</span> <span class="n">pada</span> <span class="n">seluruh</span> <span class="n">atribut</span>
+</pre></div>
+</div>
+<p>Berikut tampilan node Missing Value pada KNIME:</p>
+<p><img alt="Missing Value" src="../_images/13_missing_val.png" /></p>
+</section>
+<section id="c-table-partitioner">
+<h3>C. Table Partitioner<a class="headerlink" href="#c-table-partitioner" title="Link to this heading">#</a></h3>
+<p>Node <strong>Table Partitioner</strong> digunakan untuk membagi dataset menjadi data training dan data testing sebelum dilakukan proses klasifikasi menggunakan algoritma Decision Tree dan Random Forest.</p>
+<p>Pada penelitian ini digunakan metode pembagian data <strong>Relative (%)</strong> dengan persentase:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">80</span><span class="o">%</span> <span class="o">=</span> <span class="n">Data</span> <span class="n">Training</span>
+<span class="mi">20</span><span class="o">%</span> <span class="o">=</span> <span class="n">Data</span> <span class="n">Testing</span>
+</pre></div>
+</div>
+<p>Proses pembagian data dilakukan menggunakan metode <strong>Random Sampling</strong> sehingga data dipilih secara acak agar model dapat melakukan proses pembelajaran dengan lebih baik. Selain itu digunakan juga fitur <strong>Fixed Random Seed</strong> dengan nilai <strong>31</strong> agar hasil pembagian data tetap konsisten setiap workflow dijalankan kembali.</p>
+<p>Hasil pembagian data menghasilkan:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span> <span class="n">Training</span> <span class="p">:</span> <span class="mi">614</span> <span class="n">baris</span> <span class="n">data</span>
+<span class="n">Data</span> <span class="n">Testing</span>  <span class="p">:</span> <span class="mi">154</span> <span class="n">baris</span> <span class="n">data</span>
+</pre></div>
+</div>
+<p>Data training digunakan untuk proses pelatihan model Decision Tree dan Random Forest, sedangkan data testing digunakan untuk menguji performa model dalam memprediksi diabetes berdasarkan data pasien.</p>
+<p>Berikut tampilan konfigurasi serta hasil pembagian data pada node Table Partitioner:</p>
+<p><img alt="Partitioning" src="../_images/14_partion_config.png" /></p>
+<p><img alt="Training Data" src="../_images/15_training.png" /></p>
+<p><img alt="Testing Data" src="../_images/16_testing.png" /></p>
+</section>
+<section id="d-decision-tree-training-dan-testing">
+<h3>D. Decision Tree Training dan Testing<a class="headerlink" href="#d-decision-tree-training-dan-testing" title="Link to this heading">#</a></h3>
+<p>Pada bagian ini digunakan node <strong>Python Script (Legacy)</strong> untuk melakukan proses training dan testing menggunakan algoritma <strong>Decision Tree</strong> pada dataset Diabetes.</p>
+<p>Node <strong>Decision Tree Training + Pickle</strong> digunakan untuk membangun model klasifikasi Decision Tree berdasarkan data training yang telah dibagi sebelumnya menggunakan node Table Partitioner. Pada proses ini model akan mempelajari pola dari data pasien untuk menentukan kemungkinan seseorang memiliki diabetes atau tidak. Model yang telah dibuat kemudian disimpan dalam bentuk file pickle (<code class="docutils literal notranslate"><span class="pre">.pkl</span></code>) agar dapat digunakan kembali pada proses testing.</p>
+<p>Selanjutnya node <strong>Decision Tree Testing</strong> digunakan untuk melakukan prediksi terhadap data testing menggunakan model Decision Tree yang telah dibuat sebelumnya. Hasil prediksi kemudian dikirim ke node <strong>Scorer</strong> untuk dilakukan evaluasi performa model menggunakan confusion matrix dan nilai akurasi.</p>
+<section id="python-script-training-decision-tree">
+<h4>1. Python Script Training Decision Tree<a class="headerlink" href="#python-script-training-decision-tree" title="Link to this heading">#</a></h4>
+<p>Node <strong>Python Script Training Decision Tree</strong> digunakan untuk melatih model <strong>Decision Tree</strong> menggunakan data training dari <strong>Table Partitioner</strong>.</p>
+<p>Pada node ini, data training dari KNIME diambil ke Python, kemudian dilakukan pembersihan nama kolom, pengecekan target, pemisahan antara fitur dan target, konversi data ke bentuk numerik, pengisian nilai kosong, proses training model, dan penyimpanan model menggunakan <strong>pickle</strong>.</p>
+<p>Kode lengkap yang digunakan:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+
+<span class="c1"># Ambil data dari KNIME</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">input_table_1</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Bersihkan nama kolom</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="c1"># Hapus data kosong pada Outcome</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">])</span>
+
+<span class="c1"># Pastikan Outcome berupa angka</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Pisahkan fitur dan target</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">])</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span>
+
+<span class="c1"># Ubah semua fitur menjadi numerik</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+
+<span class="c1"># Isi missing value dengan mean</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Jumlah data tiap kelas:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+
+<span class="c1"># Membuat model Decision Tree</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span>
+    <span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;gini&quot;</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="c1"># Training model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Simpan model</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;decision_tree_diabetes.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model Decision Tree berhasil disimpan!&quot;</span><span class="p">)</span>
+
+<span class="c1"># Output ke KNIME</span>
+<span class="n">output_table_1</span> <span class="o">=</span> <span class="n">df</span>
+</pre></div>
+</div>
+<p>Pada kode tersebut, kolom <strong>Outcome</strong> digunakan sebagai label klasifikasi, sedangkan atribut lainnya seperti <strong>Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction,</strong> dan <strong>Age</strong> digunakan sebagai fitur untuk melatih model Decision Tree.</p>
+</section>
+<section id="penjelasan-kode-python-script-training-decision-tree">
+<h4>Penjelasan Kode Python Script Training Decision Tree<a class="headerlink" href="#penjelasan-kode-python-script-training-decision-tree" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pandas</span> <span class="pre">as</span> <span class="pre">pd</span></code></p>
+<p>Digunakan untuk mengolah dan memanipulasi data dalam bentuk tabel atau dataframe.</p>
+<p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pickle</span></code></p>
+<p>Digunakan untuk menyimpan model machine learning ke dalam file <code class="docutils literal notranslate"><span class="pre">.pkl</span></code> agar dapat digunakan kembali saat proses testing.</p>
+<p><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">sklearn.tree</span> <span class="pre">import</span> <span class="pre">DecisionTreeClassifier</span></code></p>
+<p>Digunakan untuk memanggil algoritma Decision Tree dari library <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df</span> <span class="pre">=</span> <span class="pre">input_table_1.copy()</span></code></p>
+<p>Mengambil data dari KNIME ke Python kemudian menyalinnya ke dalam variabel <code class="docutils literal notranslate"><span class="pre">df</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df.columns</span> <span class="pre">=</span> <span class="pre">df.columns.str.strip()</span></code></p>
+<p>Digunakan untuk menghapus spasi kosong pada nama kolom agar tidak terjadi error saat pemanggilan atribut.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df</span> <span class="pre">=</span> <span class="pre">df.dropna(subset=[&quot;Outcome&quot;])</span></code></p>
+<p>Menghapus baris data yang memiliki nilai kosong pada kolom <code class="docutils literal notranslate"><span class="pre">Outcome</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df[&quot;Outcome&quot;]</span> <span class="pre">=</span> <span class="pre">pd.to_numeric(df[&quot;Outcome&quot;],</span> <span class="pre">errors=&quot;coerce&quot;)</span></code></p>
+<p>Mengubah data pada kolom <code class="docutils literal notranslate"><span class="pre">Outcome</span></code> menjadi tipe numerik.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df</span> <span class="pre">=</span> <span class="pre">df.dropna(subset=[&quot;Outcome&quot;])</span></code></p>
+<p>Menghapus kembali data yang gagal dikonversi menjadi numerik.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df[&quot;Outcome&quot;]</span> <span class="pre">=</span> <span class="pre">df[&quot;Outcome&quot;].astype(int)</span></code></p>
+<p>Mengubah tipe data Outcome menjadi integer.</p>
+<p><code class="docutils literal notranslate"><span class="pre">X_train</span> <span class="pre">=</span> <span class="pre">df.drop(columns=[&quot;Outcome&quot;])</span></code></p>
+<p>Digunakan untuk mengambil seluruh atribut selain Outcome sebagai data fitur training.</p>
+<p><code class="docutils literal notranslate"><span class="pre">y_train</span> <span class="pre">=</span> <span class="pre">df[&quot;Outcome&quot;]</span></code></p>
+<p>Digunakan untuk mengambil kolom Outcome sebagai label klasifikasi.</p>
+<p><code class="docutils literal notranslate"><span class="pre">X_train</span> <span class="pre">=</span> <span class="pre">X_train.apply(pd.to_numeric,</span> <span class="pre">errors=&quot;coerce&quot;)</span></code></p>
+<p>Mengubah seluruh data fitur menjadi numerik agar dapat diproses oleh algoritma Decision Tree.</p>
+<p><code class="docutils literal notranslate"><span class="pre">X_train</span> <span class="pre">=</span> <span class="pre">X_train.fillna(X_train.mean())</span></code></p>
+<p>Mengisi nilai kosong pada data fitur menggunakan nilai rata-rata setiap kolom.</p>
+<p><code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">DecisionTreeClassifier(criterion=&quot;gini&quot;,</span> <span class="pre">random_state=42)</span></code></p>
+<p>Membuat model Decision Tree menggunakan metode pemisahan <code class="docutils literal notranslate"><span class="pre">gini</span></code> dan random state sebesar <code class="docutils literal notranslate"><span class="pre">42</span></code> agar hasil training tetap konsisten.</p>
+<p><code class="docutils literal notranslate"><span class="pre">model.fit(X_train,</span> <span class="pre">y_train)</span></code></p>
+<p>Digunakan untuk melatih model Decision Tree menggunakan data training dan target.</p>
+<p><code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">open(&quot;decision_tree_diabetes.pkl&quot;,</span> <span class="pre">&quot;wb&quot;)</span> <span class="pre">as</span> <span class="pre">file:</span> <span class="pre">pickle.dump(model,</span> <span class="pre">file)</span></code></p>
+<p>Digunakan untuk menyimpan model Decision Tree yang telah dilatih ke dalam file <code class="docutils literal notranslate"><span class="pre">decision_tree_diabetes.pkl</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">output_table_1</span> <span class="pre">=</span> <span class="pre">df</span></code></p>
+<p>Mengirim kembali dataframe ke output KNIME agar dapat digunakan pada node berikutnya.</p>
+</section>
+<hr class="docutils" />
+<section id="python-script-testing-decision-tree">
+<h4>2. Python Script Testing Decision Tree<a class="headerlink" href="#python-script-testing-decision-tree" title="Link to this heading">#</a></h4>
+<p>Node <strong>Python Script Testing Decision Tree</strong> digunakan untuk memanggil model Decision Tree yang sudah disimpan sebelumnya, kemudian melakukan prediksi pada data testing dari <strong>Table Partitioner</strong>.</p>
+<p>Pada node ini, data testing dari KNIME diambil ke Python, lalu dipisahkan antara atribut fitur dan target. Setelah itu, model Decision Tree yang tersimpan dalam file <code class="docutils literal notranslate"><span class="pre">decision_tree_diabetes.pkl</span></code> dibuka kembali menggunakan <strong>pickle</strong> untuk melakukan proses prediksi.</p>
+<p>Kode lengkap yang digunakan:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+
+<span class="c1"># Ambil data testing dari KNIME</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">input_table_1</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Bersihkan nama kolom</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="c1"># Hapus data kosong</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">])</span>
+
+<span class="c1"># Pastikan Outcome numerik</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Pisahkan fitur dan target</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">])</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span>
+
+<span class="c1"># Ubah fitur menjadi numerik</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+
+<span class="c1"># Isi missing value</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<span class="c1"># Load model</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;decision_tree_diabetes.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model berhasil dibuka!&quot;</span><span class="p">)</span>
+
+<span class="c1"># Prediksi</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Hasil output ke KNIME</span>
+<span class="n">output_table_1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Actual&quot;</span><span class="p">:</span> <span class="n">y_test</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="s2">&quot;Prediction&quot;</span><span class="p">:</span> <span class="n">y_pred</span>
+<span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Prediksi berhasil dilakukan!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Hasil dari node ini berupa tabel yang berisi kolom <strong>Actual</strong> dan <strong>Prediction</strong>. Kolom Actual menunjukkan nilai target asli dari data testing, sedangkan kolom Prediction menunjukkan hasil prediksi dari model Decision Tree.</p>
+</section>
+<hr class="docutils" />
+<section id="scorer-decision-tree">
+<h4>3. Scorer Decision Tree<a class="headerlink" href="#scorer-decision-tree" title="Link to this heading">#</a></h4>
+<p>Node <strong>Scorer Decision Tree</strong> digunakan untuk mengevaluasi hasil prediksi dari model Decision Tree. Node ini membandingkan nilai asli pada data testing dengan hasil prediksi yang dihasilkan oleh model.</p>
+<p>Pada node Scorer, kolom yang dibandingkan adalah:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">First</span> <span class="n">column</span>  <span class="o">=</span> <span class="n">Actual</span>
+<span class="n">Second</span> <span class="n">column</span> <span class="o">=</span> <span class="n">Prediction</span>
+</pre></div>
+</div>
+<p>Output dari node Scorer berupa <strong>confusion matrix</strong> dan statistik evaluasi model. Berdasarkan hasil evaluasi, diperoleh:</p>
+<p><strong>Confusion Matrix Decision Tree</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Actual \ Prediction</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>1</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>73</p></td>
+<td><p>31</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>20</p></td>
+<td><p>30</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Hasil evaluasi:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metrik</p></th>
+<th class="head"><p>Nilai</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>True Positive (kelas 0)</p></td>
+<td><p>73</p></td>
+</tr>
+<tr class="row-odd"><td><p>False Positive (kelas 0)</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-even"><td><p>True Negative (kelas 0)</p></td>
+<td><p>30</p></td>
+</tr>
+<tr class="row-odd"><td><p>False Negative (kelas 0)</p></td>
+<td><p>31</p></td>
+</tr>
+<tr class="row-even"><td><p>Recall (kelas 0)</p></td>
+<td><p>0.702</p></td>
+</tr>
+<tr class="row-odd"><td><p>Precision (kelas 0)</p></td>
+<td><p>0.785</p></td>
+</tr>
+<tr class="row-even"><td><p>Sensitivity (kelas 0)</p></td>
+<td><p>0.702</p></td>
+</tr>
+<tr class="row-odd"><td><p>Specificity (kelas 0)</p></td>
+<td><p>0.600</p></td>
+</tr>
+<tr class="row-even"><td><p>F-measure (kelas 0)</p></td>
+<td><p>0.741</p></td>
+</tr>
+<tr class="row-odd"><td><p>Accuracy (Overall)</p></td>
+<td><p>0.669</p></td>
+</tr>
+<tr class="row-even"><td><p>Cohen’s Kappa</p></td>
+<td><p>0.286</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Confusion matrix menunjukkan bahwa dari total <strong>154 data testing</strong>, model Decision Tree berhasil mengklasifikasikan <strong>103 data dengan benar</strong> dan terdapat <strong>51 data yang diprediksi salah</strong>.</p>
+<p>Berikut tampilan konfigurasi dan hasil evaluasi pada node Scorer Decision Tree:</p>
+<p><img alt="Decision Tree Config" src="../_images/17_dt_config.png" /></p>
+<p><img alt="Decision Tree Matrix" src="../_images/18_dt_matrix.png" /></p>
+<p><img alt="Decision Tree Accuracy" src="../_images/19_dt_accuracy.png" /></p>
+</section>
+</section>
+<section id="e-node-random-forest">
+<h3>E. Node Random Forest<a class="headerlink" href="#e-node-random-forest" title="Link to this heading">#</a></h3>
+<p>Bagian Random Forest digunakan untuk membangun model klasifikasi menggunakan algoritma Random Forest pada dataset Diabetes.</p>
+<p>Pada proses ini dilakukan training dan testing model untuk memprediksi kemungkinan pasien mengalami diabetes berdasarkan data kesehatan pasien.</p>
+<p>Model Random Forest bekerja dengan menggabungkan beberapa decision tree sehingga hasil prediksi menjadi lebih stabil dan memiliki tingkat akurasi yang lebih baik.</p>
+<p>Pada bagian Random Forest terdapat tiga node utama yaitu:</p>
+<ol class="arabic simple">
+<li><p>Python Script Training Random Forest digunakan untuk melatih model Random Forest menggunakan data training</p></li>
+<li><p>Python Script Testing Random Forest digunakan untuk melakukan prediksi pada data testing</p></li>
+<li><p>Scorer Random Forest digunakan untuk mengevaluasi hasil prediksi model menggunakan confusion matrix dan nilai akurasi</p></li>
+</ol>
+<section id="python-script-training-random-forest">
+<h4>1. Python Script Training Random Forest<a class="headerlink" href="#python-script-training-random-forest" title="Link to this heading">#</a></h4>
+<p>Node <strong>Python Script Training Random Forest</strong> digunakan untuk melatih model <strong>Random Forest</strong> menggunakan data training dari <strong>Table Partitioner</strong>.</p>
+<p>Pada node ini, data training dari KNIME diambil ke Python kemudian dilakukan preprocessing data seperti pembersihan nama kolom, pengecekan target, konversi data menjadi numerik, penanganan missing value, proses training model Random Forest, serta penyimpanan model menggunakan <strong>pickle</strong>.</p>
+<p>Kode lengkap yang digunakan:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+
+<span class="c1"># Ambil data dari KNIME</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">input_table_1</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Bersihkan nama kolom</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="c1"># Hapus data kosong pada Outcome</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">])</span>
+
+<span class="c1"># Pastikan Outcome berupa angka bulat 0/1</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Pisahkan fitur dan target</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">])</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span>
+
+<span class="c1"># Ubah semua fitur menjadi numerik</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+
+<span class="c1"># Isi missing value dengan mean</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<span class="c1"># Cek isi target</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nilai target:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+
+<span class="c1"># Membuat model Random Forest</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span>
+    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">criterion</span><span class="o">=</span><span class="s2">&quot;gini&quot;</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="c1"># Training model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Simpan model</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;random_forest_diabetes.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model berhasil disimpan sebagai random_forest_diabetes.pkl&quot;</span><span class="p">)</span>
+
+<span class="c1"># Output data training</span>
+<span class="n">output_table_1</span> <span class="o">=</span> <span class="n">df</span>
+</pre></div>
+</div>
+<p>Pada kode tersebut, kolom <strong>Outcome</strong> digunakan sebagai label klasifikasi, sedangkan atribut lainnya seperti <strong>Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction,</strong> dan <strong>Age</strong> digunakan sebagai fitur untuk melatih model Random Forest.</p>
+</section>
+<section id="penjelasan-kode-python-script-training-random-forest">
+<h4>Penjelasan Kode Python Script Training Random Forest<a class="headerlink" href="#penjelasan-kode-python-script-training-random-forest" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pandas</span> <span class="pre">as</span> <span class="pre">pd</span></code></p>
+<p>Digunakan untuk mengolah dan memanipulasi data dalam bentuk dataframe atau tabel.</p>
+<p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pickle</span></code></p>
+<p>Digunakan untuk menyimpan model machine learning ke dalam file <code class="docutils literal notranslate"><span class="pre">.pkl</span></code> agar dapat digunakan kembali saat proses testing.</p>
+<p><code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">sklearn.ensemble</span> <span class="pre">import</span> <span class="pre">RandomForestClassifier</span></code></p>
+<p>Digunakan untuk memanggil algoritma Random Forest dari library <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df</span> <span class="pre">=</span> <span class="pre">input_table_1.copy()</span></code></p>
+<p>Mengambil data training dari KNIME ke Python kemudian menyalinnya ke dalam variabel <code class="docutils literal notranslate"><span class="pre">df</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df.columns</span> <span class="pre">=</span> <span class="pre">df.columns.str.strip()</span></code></p>
+<p>Digunakan untuk menghapus spasi kosong pada nama kolom agar tidak terjadi kesalahan saat pemanggilan atribut.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df</span> <span class="pre">=</span> <span class="pre">df.dropna(subset=[&quot;Outcome&quot;])</span></code></p>
+<p>Menghapus baris data yang memiliki nilai kosong pada kolom <code class="docutils literal notranslate"><span class="pre">Outcome</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df[&quot;Outcome&quot;]</span> <span class="pre">=</span> <span class="pre">pd.to_numeric(df[&quot;Outcome&quot;],</span> <span class="pre">errors=&quot;coerce&quot;)</span></code></p>
+<p>Mengubah data pada kolom <code class="docutils literal notranslate"><span class="pre">Outcome</span></code> menjadi tipe numerik.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df</span> <span class="pre">=</span> <span class="pre">df.dropna(subset=[&quot;Outcome&quot;])</span></code></p>
+<p>Menghapus data yang gagal dikonversi menjadi numerik.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df[&quot;Outcome&quot;]</span> <span class="pre">=</span> <span class="pre">df[&quot;Outcome&quot;].astype(int)</span></code></p>
+<p>Mengubah tipe data Outcome menjadi integer.</p>
+<p><code class="docutils literal notranslate"><span class="pre">X_train</span> <span class="pre">=</span> <span class="pre">df.drop(columns=[&quot;Outcome&quot;])</span></code></p>
+<p>Digunakan untuk mengambil seluruh atribut selain kolom <code class="docutils literal notranslate"><span class="pre">Outcome</span></code> sebagai data fitur training.</p>
+<p><code class="docutils literal notranslate"><span class="pre">y_train</span> <span class="pre">=</span> <span class="pre">df[&quot;Outcome&quot;]</span></code></p>
+<p>Digunakan untuk mengambil kolom <code class="docutils literal notranslate"><span class="pre">Outcome</span></code> sebagai label klasifikasi.</p>
+<p><code class="docutils literal notranslate"><span class="pre">X_train</span> <span class="pre">=</span> <span class="pre">X_train.apply(pd.to_numeric,</span> <span class="pre">errors=&quot;coerce&quot;)</span></code></p>
+<p>Mengubah seluruh data fitur menjadi tipe numerik agar dapat diproses oleh algoritma Random Forest.</p>
+<p><code class="docutils literal notranslate"><span class="pre">X_train</span> <span class="pre">=</span> <span class="pre">X_train.fillna(X_train.mean())</span></code></p>
+<p>Mengisi nilai kosong pada data fitur menggunakan nilai rata-rata setiap kolom.</p>
+<p><code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">RandomForestClassifier(n_estimators=100,</span> <span class="pre">criterion=&quot;gini&quot;,</span> <span class="pre">random_state=42)</span></code></p>
+<p>Digunakan untuk membuat model Random Forest dengan:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">n_estimators=100</span></code> → jumlah decision tree sebanyak 100</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">criterion=&quot;gini&quot;</span></code> → metode perhitungan pemisahan menggunakan gini index</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">random_state=42</span></code> → agar hasil training tetap konsisten setiap dijalankan</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">model.fit(X_train,</span> <span class="pre">y_train)</span></code></p>
+<p>Digunakan untuk melatih model Random Forest menggunakan data training dan target klasifikasi.</p>
+<p><code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">open(&quot;random_forest_diabetes.pkl&quot;,</span> <span class="pre">&quot;wb&quot;)</span> <span class="pre">as</span> <span class="pre">file:</span> <span class="pre">pickle.dump(model,</span> <span class="pre">file)</span></code></p>
+<p>Digunakan untuk menyimpan model Random Forest yang telah dilatih ke dalam file <code class="docutils literal notranslate"><span class="pre">random_forest_diabetes.pkl</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">output_table_1</span> <span class="pre">=</span> <span class="pre">df</span></code></p>
+<p>Mengirim kembali dataframe ke output KNIME agar dapat digunakan pada node berikutnya.</p>
+</section>
+<section id="python-script-testing-random-forest">
+<h4>2. Python Script Testing Random Forest<a class="headerlink" href="#python-script-testing-random-forest" title="Link to this heading">#</a></h4>
+<p>Node <strong>Python Script Testing Random Forest</strong> digunakan untuk memanggil model Random Forest yang sudah disimpan sebelumnya, kemudian melakukan prediksi pada data testing dari <strong>Table Partitioner</strong>.</p>
+<p>Pada node ini, data testing dari KNIME diambil ke Python lalu dilakukan preprocessing data seperti pembersihan nama kolom, pemisahan fitur dan target, konversi data menjadi numerik, serta pemanggilan model Random Forest menggunakan file pickle untuk melakukan proses prediksi.</p>
+<p>Kode lengkap yang digunakan:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+
+<span class="c1"># Ambil data testing dari KNIME</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">input_table_1</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Bersihkan nama kolom</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="c1"># Hapus data kosong</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">])</span>
+
+<span class="c1"># Pastikan Outcome numerik</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Pisahkan fitur dan target</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">])</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Outcome&quot;</span><span class="p">]</span>
+
+<span class="c1"># Ubah fitur menjadi numerik</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+
+<span class="c1"># Isi missing value</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<span class="c1"># Load model</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;random_forest_diabetes.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model berhasil dibuka!&quot;</span><span class="p">)</span>
+
+<span class="c1"># Prediksi</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Hasil output ke KNIME</span>
+<span class="n">output_table_1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Actual&quot;</span><span class="p">:</span> <span class="n">y_test</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="s2">&quot;Prediction&quot;</span><span class="p">:</span> <span class="n">y_pred</span>
+<span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Prediksi Random Forest berhasil dilakukan!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Hasil dari node ini berupa tabel yang berisi kolom <strong>Actual</strong> dan <strong>Prediction</strong>. Kolom Actual menunjukkan nilai target asli dari data testing, sedangkan kolom Prediction menunjukkan hasil prediksi dari model Random Forest.</p>
+</section>
+<section id="penjelasan-kode-python-script-testing-random-forest">
+<h4>Penjelasan Kode Python Script Testing Random Forest<a class="headerlink" href="#penjelasan-kode-python-script-testing-random-forest" title="Link to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pandas</span> <span class="pre">as</span> <span class="pre">pd</span></code></p>
+<p>Digunakan untuk mengolah data dalam bentuk dataframe atau tabel.</p>
+<p><code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pickle</span></code></p>
+<p>Digunakan untuk membuka model Random Forest yang sebelumnya telah disimpan dalam file <code class="docutils literal notranslate"><span class="pre">.pkl</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df</span> <span class="pre">=</span> <span class="pre">input_table_1.copy()</span></code></p>
+<p>Mengambil data testing dari KNIME ke Python kemudian menyalinnya ke dalam variabel <code class="docutils literal notranslate"><span class="pre">df</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">df.columns</span> <span class="pre">=</span> <span class="pre">df.columns.str.strip()</span></code></p>
+<p>Digunakan untuk menghapus spasi kosong pada nama kolom agar tidak terjadi kesalahan saat proses pemanggilan atribut.</p>
+<p><code class="docutils literal notranslate"><span class="pre">X_test</span> <span class="pre">=</span> <span class="pre">df.drop(columns=[&quot;Outcome&quot;])</span></code></p>
+<p>Digunakan untuk mengambil seluruh atribut selain kolom <code class="docutils literal notranslate"><span class="pre">Outcome</span></code> sebagai data fitur testing.</p>
+<p><code class="docutils literal notranslate"><span class="pre">y_test</span> <span class="pre">=</span> <span class="pre">df[&quot;Outcome&quot;]</span></code></p>
+<p>Digunakan untuk mengambil kolom <code class="docutils literal notranslate"><span class="pre">Outcome</span></code> sebagai nilai aktual atau target asli.</p>
+<p><code class="docutils literal notranslate"><span class="pre">X_test</span> <span class="pre">=</span> <span class="pre">X_test.apply(pd.to_numeric,</span> <span class="pre">errors=&quot;coerce&quot;)</span></code></p>
+<p>Mengubah seluruh data fitur menjadi tipe numerik agar dapat diproses oleh model Random Forest.</p>
+<p><code class="docutils literal notranslate"><span class="pre">X_test</span> <span class="pre">=</span> <span class="pre">X_test.fillna(X_test.mean())</span></code></p>
+<p>Mengisi nilai kosong pada data testing menggunakan nilai rata-rata setiap kolom.</p>
+<p><code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">open(&quot;random_forest_diabetes.pkl&quot;,</span> <span class="pre">&quot;rb&quot;)</span> <span class="pre">as</span> <span class="pre">file:</span> <span class="pre">model</span> <span class="pre">=</span> <span class="pre">pickle.load(file)</span></code></p>
+<p>Digunakan untuk membuka dan memanggil model Random Forest yang telah disimpan sebelumnya dalam file <code class="docutils literal notranslate"><span class="pre">random_forest_diabetes.pkl</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">y_pred</span> <span class="pre">=</span> <span class="pre">model.predict(X_test)</span></code></p>
+<p>Digunakan untuk melakukan proses prediksi menggunakan model Random Forest terhadap data testing.</p>
+<p><code class="docutils literal notranslate"><span class="pre">output_table_1</span> <span class="pre">=</span> <span class="pre">pd.DataFrame({&quot;Actual&quot;:</span> <span class="pre">y_test.values,</span> <span class="pre">&quot;Prediction&quot;:</span> <span class="pre">y_pred})</span></code></p>
+<p>Membuat tabel hasil prediksi yang berisi:</p>
+<ul class="simple">
+<li><p><strong>Actual</strong> = nilai target asli dari data testing</p></li>
+<li><p><strong>Prediction</strong> = hasil prediksi model Random Forest</p></li>
+</ul>
+</section>
+<section id="scorer-random-forest">
+<h4>3. Scorer Random Forest<a class="headerlink" href="#scorer-random-forest" title="Link to this heading">#</a></h4>
+<p>Node <strong>Scorer Random Forest</strong> digunakan untuk mengevaluasi hasil prediksi dari model Random Forest. Node ini membandingkan nilai asli pada data testing dengan hasil prediksi yang dihasilkan oleh model.</p>
+<p>Pada node Scorer, kolom yang dibandingkan adalah:</p>
+<p>First column  = Actual</p>
+<p>Second column = Prediction</p>
+<p>Output dari node Scorer berupa <strong>confusion matrix</strong> dan statistik evaluasi model. Berdasarkan hasil evaluasi, diperoleh:</p>
+<p><strong>Confusion Matrix Random Forest</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Actual \ Prediction</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>1</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>isi dari ss kamu</p></td>
+<td><p>isi dari ss kamu</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>isi dari ss kamu</p></td>
+<td><p>isi dari ss kamu</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img alt="Random Forest Config" src="../_images/20_rf_config.png" /></p>
+<p><img alt="Random Forest Matrix" src="../_images/21_rf_matrix.png" /></p>
+<p><img alt="Random Forest Accuracy" src="../_images/22_rf_accuracy.png" /></p>
+</section>
+</section>
+</section>
+<section id="perbandingan-hasil-decision-tree-dan-random-forest">
+<h2>5. Perbandingan Hasil Decision Tree dan Random Forest<a class="headerlink" href="#perbandingan-hasil-decision-tree-dan-random-forest" title="Link to this heading">#</a></h2>
+<p>Pada penelitian ini dilakukan perbandingan performa antara algoritma Decision Tree dan Random Forest dalam memprediksi penyakit diabetes pada dataset Diabetes. Perbandingan dilakukan berdasarkan hasil evaluasi menggunakan node Scorer pada KNIME.</p>
+<section id="hasil-evaluasi-decision-tree">
+<h3>5.1 Hasil Evaluasi Decision Tree<a class="headerlink" href="#hasil-evaluasi-decision-tree" title="Link to this heading">#</a></h3>
+<p>Berdasarkan hasil evaluasi menggunakan confusion matrix, model Decision Tree memperoleh hasil sebagai berikut:</p>
+<p>Confusion Matrix Decision Tree</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Actual \ Prediction</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>1</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>73</p></td>
+<td><p>31</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>20</p></td>
+<td><p>30</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Hasil evaluasi:</p>
+<ul class="simple">
+<li><p>Correct classified : 103</p></li>
+<li><p>Wrong classified   : 51</p></li>
+<li><p>Accuracy           : 66.9%</p></li>
+<li><p>Error              : 33.1%</p></li>
+<li><p>Cohen’s Kappa      : 0.286</p></li>
+</ul>
+</section>
+<section id="hasil-evaluasi-random-forest">
+<h3>5.2 Hasil Evaluasi Random Forest<a class="headerlink" href="#hasil-evaluasi-random-forest" title="Link to this heading">#</a></h3>
+<p>Berdasarkan hasil evaluasi menggunakan confusion matrix, model Random Forest memperoleh hasil sebagai berikut:</p>
+<p>Confusion Matrix Random Forest</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Actual \ Prediction</p></th>
+<th class="head"><p>0</p></th>
+<th class="head"><p>1</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>93</p></td>
+<td><p>11</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>21</p></td>
+<td><p>29</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Hasil evaluasi:</p>
+<ul class="simple">
+<li><p>Correct classified : 122</p></li>
+<li><p>Wrong classified   : 32</p></li>
+<li><p>Accuracy           : 79.2%</p></li>
+<li><p>Error              : 20.8%</p></li>
+<li><p>Cohen’s Kappa      : 0.500</p></li>
+</ul>
+</section>
+<section id="tabel-perbandingan">
+<h3>5.3 Tabel Perbandingan<a class="headerlink" href="#tabel-perbandingan" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Algoritma</p></th>
+<th class="head"><p>Correct Classified</p></th>
+<th class="head"><p>Wrong Classified</p></th>
+<th class="head"><p>Accuracy</p></th>
+<th class="head"><p>Error</p></th>
+<th class="head"><p>Cohen’s Kappa</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Decision Tree</p></td>
+<td><p>103</p></td>
+<td><p>51</p></td>
+<td><p>66.9%</p></td>
+<td><p>33.1%</p></td>
+<td><p>0.286</p></td>
+</tr>
+<tr class="row-odd"><td><p>Random Forest</p></td>
+<td><p>122</p></td>
+<td><p>32</p></td>
+<td><p>79.2%</p></td>
+<td><p>20.8%</p></td>
+<td><p>0.500</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="analisis-hasil">
+<h3>5.4 Analisis Hasil<a class="headerlink" href="#analisis-hasil" title="Link to this heading">#</a></h3>
+<p>Berdasarkan hasil pengujian, algoritma Decision Tree dan Random Forest menghasilkan performa yang berbeda pada dataset Diabetes. Algoritma Random Forest berhasil mengklasifikasikan 122 data dengan benar dan menghasilkan 32 kesalahan prediksi dari total 154 data testing. Sedangkan algoritma Decision Tree hanya berhasil mengklasifikasikan 103 data dengan benar dan menghasilkan 51 kesalahan prediksi.</p>
+<p>Nilai akurasi Random Forest sebesar 79.2% menunjukkan bahwa model memiliki performa yang lebih baik dibandingkan Decision Tree yang hanya memperoleh akurasi sebesar 66.9%. Selain itu, nilai error Random Forest lebih rendah yaitu sebesar 20.8%, sedangkan Decision Tree memiliki error sebesar 33.1%.</p>
+<p>Nilai Cohen’s Kappa pada Random Forest sebesar 0.500 menunjukkan tingkat kesesuaian prediksi model yang lebih baik dibandingkan Decision Tree yang hanya memperoleh nilai Cohen’s Kappa sebesar 0.286.</p>
+</section>
+</section>
+<section id="kesimpulan">
+<h2>6. Kesimpulan<a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h2>
+<p>Berdasarkan hasil perbandingan yang telah dilakukan, algoritma Random Forest menghasilkan performa yang lebih baik dibandingkan algoritma Decision Tree pada dataset Diabetes. Random Forest memperoleh nilai akurasi yang lebih tinggi dan nilai error yang lebih rendah dibandingkan Decision Tree sehingga lebih baik digunakan untuk melakukan prediksi penyakit diabetes.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./md"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="07_naivebayes.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Analisis Data Menggunakan Naive Bayes</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pendahuluan">1. Pendahuluan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deskripsi-dataset">2. Deskripsi Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atribut-numerik">2.1 Atribut Numerik</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-knime">3. Workflow KNIME</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-node-pada-workflow-knime">4. Penjelasan Node pada Workflow KNIME</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-csv-reader">A. CSV Reader</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-missing-value">B. Missing Value</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-table-partitioner">C. Table Partitioner</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-decision-tree-training-dan-testing">D. Decision Tree Training dan Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#python-script-training-decision-tree">1. Python Script Training Decision Tree</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-kode-python-script-training-decision-tree">Penjelasan Kode Python Script Training Decision Tree</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#python-script-testing-decision-tree">2. Python Script Testing Decision Tree</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#scorer-decision-tree">3. Scorer Decision Tree</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#e-node-random-forest">E. Node Random Forest</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#python-script-training-random-forest">1. Python Script Training Random Forest</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-kode-python-script-training-random-forest">Penjelasan Kode Python Script Training Random Forest</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#python-script-testing-random-forest">2. Python Script Testing Random Forest</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-kode-python-script-testing-random-forest">Penjelasan Kode Python Script Testing Random Forest</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#scorer-random-forest">3. Scorer Random Forest</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#perbandingan-hasil-decision-tree-dan-random-forest">5. Perbandingan Hasil Decision Tree dan Random Forest</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-evaluasi-decision-tree">5.1 Hasil Evaluasi Decision Tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-evaluasi-random-forest">5.2 Hasil Evaluasi Random Forest</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tabel-perbandingan">5.3 Tabel Perbandingan</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-hasil">5.4 Analisis Hasil</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">6. Kesimpulan</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alif Baiatur Ridhwan El Habibie
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
