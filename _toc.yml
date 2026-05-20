@@ -16,4 +16,4 @@ chapters:
 - file: md/07_naivebayes
   title: "Analisis Data Menggunakan Naive Bayes"
 - file: md/09_random_forest
-  title: "Analisa Data Menggunakan Random Forest untuk Prediksi pada Dataset Heart Disease"
+  title: "Analisa Data Menggunakan Random Forest untuk Prediksi pada Dataset Diabetes"

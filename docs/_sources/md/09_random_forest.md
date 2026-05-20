@@ -1,4 +1,4 @@
-# Analisa Data Menggunakan Random Forest untuk Prediksi pada Dataset Heart Disease
+# Analisa Data Menggunakan Random Forest untuk Prediksi pada Dataset Diabetes
 
 ## 1. Pendahuluan
 
