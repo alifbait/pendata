@@ -17,3 +17,5 @@ chapters:
   title: "Analisis Data Menggunakan Naive Bayes"
 - file: md/09_random_forest
   title: "Analisa Data Menggunakan Random Forest untuk Prediksi pada Dataset Diabetes"
+- file: md/10_analisa_regres_ilinier
+  title: "Analisis Data Menggunakan Regresi Linier"

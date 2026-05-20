@@ -1,0 +1,957 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Analisis Data Menggunakan Regresi Linier &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'md/10_analisa_regres_ilinier';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Analisa Data Menggunakan Random Forest untuk Prediksi pada Dataset Diabetes" href="09_random_forest.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Mata kuliah Penambangan Data
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_tugas1.html">Business Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_tugas2.html">Data Understanding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_tugas3.html">Data Preparation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_tugas4_jarak.html">Perhitungan Jarak Data Campuran</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_tugas5_missing.html">Proyek Missing Values Inputation + Materi Normalisasi data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_uts.html">Laporan UTS Pengantar Data Mining</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07_naivebayes.html">Analisis Data Menggunakan Naive Bayes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="09_random_forest.html">Analisa Data Menggunakan Random Forest untuk Prediksi pada Dataset Diabetes</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Analisis Data Menggunakan Regresi Linier</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/alifbait/pendat" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/alifbait/pendat/issues/new?title=Issue%20on%20page%20%2Fmd/10_analisa_regres_ilinier.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/md/10_analisa_regres_ilinier.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Analisis Data Menggunakan Regresi Linier</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Analisis Data Menggunakan Regresi Linier</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contents">Contents</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-materi">1. Penjelasan Materi</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tugas">2. Tugas</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-yang-digunakan">3. Data yang Digunakan</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#kode-program-python">4. Kode Program Python</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-kode-program">5. Penjelasan Kode Program</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">5.1 Import Library</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#membuat-data">5.2 Membuat Data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-variabel-x-dan-y">5.3 Menentukan Variabel X dan Y</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#membuat-model-regresi-linier">5.4 Membuat Model Regresi Linier</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mengambil-intercept-dan-koefisien">5.5 Mengambil Intercept dan Koefisien</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-nilai-prediksi">5.6 Menghitung Nilai Prediksi</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-residual-error">5.7 Menghitung Residual Error</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-residual-kuadrat">5.8 Menghitung Residual Kuadrat</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-mean-squared-error">5.9 Menghitung Mean Squared Error</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-grafik">5.10 Menampilkan Grafik</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-output-program">6. Hasil Output Program</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pembahasan-hasil">7. Pembahasan Hasil</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-grafik">8. Visualisasi Grafik</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menggunakan-geogebra">8.1 Menggunakan GeoGebra</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menggunakan-matplotlib">8.2 Menggunakan Matplotlib</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">9. Kesimpulan</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="analisis-data-menggunakan-regresi-linier">
+<h1>Analisis Data Menggunakan Regresi Linier<a class="headerlink" href="#analisis-data-menggunakan-regresi-linier" title="Link to this heading">#</a></h1>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Penjelasan Materi</p></li>
+<li><p>Tugas</p></li>
+<li><p>Data yang Digunakan</p></li>
+<li><p>Kode Program Python</p></li>
+<li><p>Penjelasan Kode Program</p></li>
+<li><p>Hasil Output Program</p></li>
+<li><p>Pembahasan Hasil</p></li>
+<li><p>Visualisasi Grafik</p></li>
+<li><p>Kesimpulan</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="penjelasan-materi">
+<h1>1. Penjelasan Materi<a class="headerlink" href="#penjelasan-materi" title="Link to this heading">#</a></h1>
+<p>Regresi linier adalah metode analisis data yang digunakan untuk mengetahui hubungan antara variabel bebas X dan variabel terikat Y. Tujuan dari regresi linier adalah mencari garis terbaik yang dapat mewakili pola hubungan data.</p>
+<p>Bentuk umum persamaan regresi linier sederhana adalah:</p>
+<div class="math notranslate nohighlight">
+\[
+y = ax + b
+\]</div>
+<p>Keterangan:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(y\)</span> adalah nilai hasil prediksi</p></li>
+<li><p><span class="math notranslate nohighlight">\(x\)</span> adalah nilai variabel input</p></li>
+<li><p><span class="math notranslate nohighlight">\(a\)</span> adalah koefisien regresi atau kemiringan garis</p></li>
+<li><p><span class="math notranslate nohighlight">\(b\)</span> adalah intercept, yaitu nilai <span class="math notranslate nohighlight">\(y\)</span> saat <span class="math notranslate nohighlight">\(x = 0\)</span></p></li>
+</ul>
+<p>Pada proyek ini, regresi linier digunakan untuk mencari hubungan antara data X dan Y. Perhitungan dilakukan menggunakan library <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>, yaitu <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code>, kemudian hasil prediksi dibandingkan dengan data asli untuk mendapatkan residual error.</p>
+<p>Selain menggunakan library <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>, koefisien regresi juga dapat dicari secara analitik menggunakan persamaan matriks berikut:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\beta} = (X^TX)^{-1}X^TY
+\]</div>
+<p>Residual error adalah selisih antara nilai asli dan nilai hasil prediksi.</p>
+<p>Semakin kecil nilai residual error, maka hasil prediksi semakin dekat dengan data asli.</p>
+<p>Selain residual error, digunakan juga residual kuadrat dan Mean Squared Error atau MSE.</p>
+<p>MSE digunakan untuk mengetahui besar rata-rata kesalahan prediksi model regresi.</p>
+<div class="math notranslate nohighlight">
+\[
+Residual\ Error = Y\ asli - Y\ prediksi
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+Residual\ Kuadrat = (Residual\ Error)^2
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+MSE = rata-rata\ dari\ Residual\ Kuadrat
+\]</div>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="tugas">
+<h1>2. Tugas<a class="headerlink" href="#tugas" title="Link to this heading">#</a></h1>
+<p>Proyek ini digunakan untuk membuat analisis data menggunakan Regresi Linier.</p>
+<p>Pada proyek ini dilakukan beberapa tahapan analisis data menggunakan metode regresi linier sederhana. Analisis dilakukan menggunakan bahasa pemrograman Python dengan bantuan library <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>.</p>
+<p>Tahapan yang dilakukan pada proyek ini meliputi:</p>
+<ul class="simple">
+<li><p>Membuat program untuk menghitung koefisien regresi menggunakan library <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code></p></li>
+<li><p>Menginput data X dan Y ke dalam program Python</p></li>
+<li><p>Menghitung nilai prediksi berdasarkan model regresi linier</p></li>
+<li><p>Menghitung residual error</p></li>
+<li><p>Menghitung residual kuadrat</p></li>
+<li><p>Menghitung Mean Squared Error (MSE)</p></li>
+<li><p>Menampilkan visualisasi grafik regresi linier menggunakan <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code></p></li>
+</ul>
+<p>Selain menggunakan library <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>, pada proyek ini juga digunakan konsep perhitungan analitik regresi linier menggunakan persamaan matriks berikut:</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\beta} = (X^TX)^{-1}X^TY
+\]</div>
+<p>Persamaan tersebut digunakan untuk mencari nilai koefisien regresi secara matematis menggunakan operasi matriks.</p>
+<p>Tujuan dari proyek ini adalah memahami cara kerja regresi linier dalam melakukan prediksi data dan mengetahui hubungan antara variabel X dan variabel Y berdasarkan data yang digunakan.</p>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="data-yang-digunakan">
+<h1>3. Data yang Digunakan<a class="headerlink" href="#data-yang-digunakan" title="Link to this heading">#</a></h1>
+<p>Data yang digunakan pada proyek ini adalah data sederhana yang terdiri dari variabel X dan variabel Y.</p>
+<p>Variabel X digunakan sebagai variabel bebas atau input, sedangkan variabel Y digunakan sebagai variabel terikat atau output.</p>
+<p>Data yang digunakan adalah sebagai berikut:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Titik</p></th>
+<th class="head text-center"><p>X</p></th>
+<th class="head text-center"><p>Y</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>A</p></td>
+<td class="text-center"><p>2</p></td>
+<td class="text-center"><p>2</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>B</p></td>
+<td class="text-center"><p>4</p></td>
+<td class="text-center"><p>3</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>C</p></td>
+<td class="text-center"><p>3</p></td>
+<td class="text-center"><p>5</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>D</p></td>
+<td class="text-center"><p>3</p></td>
+<td class="text-center"><p>4</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>E</p></td>
+<td class="text-center"><p>3</p></td>
+<td class="text-center"><p>3</p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p>F</p></td>
+<td class="text-center"><p>4</p></td>
+<td class="text-center"><p>5</p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p>G</p></td>
+<td class="text-center"><p>5</p></td>
+<td class="text-center"><p>6</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Data tersebut kemudian dimasukkan ke dalam program Python menggunakan <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>.</p>
+<p>Hubungan antara data X dan Y selanjutnya dianalisis menggunakan metode regresi linier untuk mengetahui pola hubungan antar data serta menghasilkan garis regresi terbaik berdasarkan data yang tersedia.</p>
+<p><img alt="Data GeoGebra" src="../_images/23_data_geogebra.png" /></p>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="kode-program-python">
+<h1>4. Kode Program Python<a class="headerlink" href="#kode-program-python" title="Link to this heading">#</a></h1>
+<p>Kode program berikut digunakan untuk melakukan analisis regresi linier menggunakan bahasa pemrograman Python dengan bantuan library <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, dan <code class="docutils literal notranslate"><span class="pre">sklearn</span></code>.</p>
+<p>Program digunakan untuk:</p>
+<ul class="simple">
+<li><p>Membuat data X dan Y</p></li>
+<li><p>Melatih model regresi linier</p></li>
+<li><p>Menghitung nilai prediksi</p></li>
+<li><p>Menghitung residual error</p></li>
+<li><p>Menghitung residual kuadrat</p></li>
+<li><p>Menghitung Mean Squared Error (MSE)</p></li>
+<li><p>Menampilkan grafik regresi linier</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="c1"># Data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;X&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="s2">&quot;Y&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="p">})</span>
+
+<span class="c1"># Variabel X dan Y</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s2">&quot;X&quot;</span><span class="p">]]</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span>
+
+<span class="c1"># Model regresi linier</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+
+<span class="c1"># Training model</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+
+<span class="c1"># Mengambil intercept dan koefisien</span>
+<span class="n">intercept</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">intercept_</span>
+<span class="n">koefisien</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Intercept:&quot;</span><span class="p">,</span> <span class="n">intercept</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Koefisien:&quot;</span><span class="p">,</span> <span class="n">koefisien</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Persamaan garis: y = </span><span class="si">{</span><span class="n">koefisien</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">x + </span><span class="si">{</span><span class="n">intercept</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Prediksi</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Y_prediksi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Residual error</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Residual_Error&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Y_prediksi&quot;</span><span class="p">]</span>
+
+<span class="c1"># Residual kuadrat</span>
+<span class="n">data</span><span class="p">[</span><span class="s2">&quot;Residual_Kuadrat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Residual_Error&quot;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+
+<span class="c1"># Mean Squared Error</span>
+<span class="n">mse</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Residual_Kuadrat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Hasil prediksi dan residual error:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Total residual error:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Residual_Error&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean Squared Error:&quot;</span><span class="p">,</span> <span class="n">mse</span><span class="p">)</span>
+
+<span class="c1"># Visualisasi grafik</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Data Asli&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Y_prediksi&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Garis Regresi&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Regresi Linier&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="penjelasan-kode-program">
+<h1>5. Penjelasan Kode Program<a class="headerlink" href="#penjelasan-kode-program" title="Link to this heading">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="import-library">
+<h1>5.1 Import Library<a class="headerlink" href="#import-library" title="Link to this heading">#</a></h1>
+<p>Pada program ini digunakan beberapa library Python untuk membantu proses analisis data dan visualisasi grafik.</p>
+<p>Library <code class="docutils literal notranslate"><span class="pre">pandas</span></code> digunakan untuk membuat dan mengolah data dalam bentuk tabel atau <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
+<p>Library <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot</span></code> digunakan untuk menampilkan grafik hasil regresi linier.</p>
+<p>Library <code class="docutils literal notranslate"><span class="pre">LinearRegression</span></code> dari <code class="docutils literal notranslate"><span class="pre">sklearn.linear_model</span></code> digunakan untuk membuat model regresi linier.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="membuat-data">
+<h1>5.2 Membuat Data<a class="headerlink" href="#membuat-data" title="Link to this heading">#</a></h1>
+<p>Kode digunakan untuk membuat data X dan Y ke dalam bentuk tabel menggunakan <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>.</p>
+<p>Data yang dimasukkan terdiri dari beberapa pasangan nilai X dan Y yang nantinya digunakan dalam proses regresi linier.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="menentukan-variabel-x-dan-y">
+<h1>5.3 Menentukan Variabel X dan Y<a class="headerlink" href="#menentukan-variabel-x-dan-y" title="Link to this heading">#</a></h1>
+<p>Variabel X digunakan sebagai variabel bebas atau input.</p>
+<p>Variabel Y digunakan sebagai variabel target atau output yang akan diprediksi menggunakan model regresi linier.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="membuat-model-regresi-linier">
+<h1>5.4 Membuat Model Regresi Linier<a class="headerlink" href="#membuat-model-regresi-linier" title="Link to this heading">#</a></h1>
+<p>Kode digunakan untuk membuat model regresi linier menggunakan <code class="docutils literal notranslate"><span class="pre">LinearRegression()</span></code>.</p>
+<p>Model kemudian dilatih menggunakan data X dan Y dengan fungsi <code class="docutils literal notranslate"><span class="pre">fit()</span></code> agar program dapat mencari hubungan antara kedua variabel tersebut.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="mengambil-intercept-dan-koefisien">
+<h1>5.5 Mengambil Intercept dan Koefisien<a class="headerlink" href="#mengambil-intercept-dan-koefisien" title="Link to this heading">#</a></h1>
+<p>Setelah model selesai dilatih, program mengambil nilai intercept dan koefisien regresi.</p>
+<p>Nilai koefisien digunakan untuk menentukan kemiringan garis regresi, sedangkan intercept digunakan untuk menentukan titik awal garis pada sumbu Y.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="menghitung-nilai-prediksi">
+<h1>5.6 Menghitung Nilai Prediksi<a class="headerlink" href="#menghitung-nilai-prediksi" title="Link to this heading">#</a></h1>
+<p>Program melakukan prediksi nilai Y berdasarkan data X menggunakan fungsi <code class="docutils literal notranslate"><span class="pre">predict()</span></code>.</p>
+<p>Hasil prediksi tersebut kemudian disimpan ke dalam kolom <code class="docutils literal notranslate"><span class="pre">Y_prediksi</span></code>.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="menghitung-residual-error">
+<h1>5.7 Menghitung Residual Error<a class="headerlink" href="#menghitung-residual-error" title="Link to this heading">#</a></h1>
+<p>Residual error adalah selisih antara nilai asli dan nilai hasil prediksi.</p>
+<p>Residual error digunakan untuk mengetahui seberapa jauh hasil prediksi model dibandingkan dengan data asli.</p>
+<p>Jika residual error bernilai positif, maka nilai asli lebih besar daripada nilai prediksi.</p>
+<p>Jika residual error bernilai negatif, maka nilai prediksi lebih besar daripada nilai asli.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="menghitung-residual-kuadrat">
+<h1>5.8 Menghitung Residual Kuadrat<a class="headerlink" href="#menghitung-residual-kuadrat" title="Link to this heading">#</a></h1>
+<p>Residual kuadrat diperoleh dengan mengkuadratkan residual error.</p>
+<p>Tujuan residual kuadrat adalah menghilangkan nilai negatif dan mengetahui besar kesalahan prediksi model.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="menghitung-mean-squared-error">
+<h1>5.9 Menghitung Mean Squared Error<a class="headerlink" href="#menghitung-mean-squared-error" title="Link to this heading">#</a></h1>
+<p>Mean Squared Error atau MSE digunakan untuk mengetahui rata-rata kesalahan prediksi model regresi linier.</p>
+<p>Semakin kecil nilai MSE, maka model regresi yang dihasilkan semakin baik karena kesalahan prediksi semakin kecil.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="menampilkan-grafik">
+<h1>5.10 Menampilkan Grafik<a class="headerlink" href="#menampilkan-grafik" title="Link to this heading">#</a></h1>
+<p>Program menampilkan grafik menggunakan <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>.</p>
+<p>Fungsi <code class="docutils literal notranslate"><span class="pre">plt.scatter()</span></code> digunakan untuk menampilkan titik data asli.</p>
+<p>Sedangkan fungsi <code class="docutils literal notranslate"><span class="pre">plt.plot()</span></code> digunakan untuk menampilkan garis regresi hasil prediksi model.</p>
+<p>Grafik digunakan untuk mempermudah melihat hubungan antara data asli dan garis regresi yang dihasilkan.</p>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="hasil-output-program">
+<h1>6. Hasil Output Program<a class="headerlink" href="#hasil-output-program" title="Link to this heading">#</a></h1>
+<p>Hasil output dari program regresi linier adalah sebagai berikut:</p>
+<ul class="simple">
+<li><p>Intercept : 0.3999999999999999</p></li>
+<li><p>Koefisien : 1.05</p></li>
+</ul>
+<p>Persamaan garis regresi yang diperoleh adalah:</p>
+<div class="math notranslate nohighlight">
+\[
+y = 1.05x + 0.4
+\]</div>
+<p>Program juga menghasilkan nilai prediksi, residual error, residual kuadrat, dan Mean Squared Error (MSE).</p>
+<p>Berikut adalah hasil output program Python:</p>
+<p><img alt="Output Python" src="../_images/24_output_python.png" /></p>
+<p>Berdasarkan output program, diperoleh hasil prediksi dan residual error untuk setiap data.</p>
+<p>Nilai residual error menunjukkan selisih antara nilai asli dengan nilai hasil prediksi model regresi.</p>
+<p>Selain itu, diperoleh nilai Mean Squared Error sebesar:</p>
+<div class="math notranslate nohighlight">
+\[
+MSE = 0.814285714285714
+\]</div>
+<p>Nilai tersebut digunakan untuk mengetahui rata-rata kesalahan prediksi model regresi linier.</p>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="pembahasan-hasil">
+<h1>7. Pembahasan Hasil<a class="headerlink" href="#pembahasan-hasil" title="Link to this heading">#</a></h1>
+<p>Berdasarkan hasil output program regresi linier, diperoleh nilai intercept sebesar:</p>
+<div class="math notranslate nohighlight">
+\[
+Intercept = 0.4
+\]</div>
+<p>dan nilai koefisien regresi sebesar:</p>
+<div class="math notranslate nohighlight">
+\[
+Koefisien = 1.05
+\]</div>
+<p>Maka persamaan garis regresi yang diperoleh adalah:</p>
+<div class="math notranslate nohighlight">
+\[
+y = 1.05x + 0.4
+\]</div>
+<p>Persamaan tersebut menunjukkan bahwa setiap kenaikan nilai X sebesar 1 satuan akan menyebabkan nilai Y meningkat sekitar 1.05 satuan.</p>
+<p>Nilai intercept sebesar 0.4 menunjukkan bahwa ketika nilai X bernilai 0, maka nilai prediksi Y adalah sebesar 0.4.</p>
+<p>Program juga menghasilkan nilai prediksi untuk setiap data berdasarkan model regresi linier yang telah dibuat.</p>
+<p>Selain itu, program menghitung residual error untuk mengetahui selisih antara nilai asli dan nilai prediksi.</p>
+<p>Contoh pada data pertama:</p>
+<ul class="simple">
+<li><p>X = 2</p></li>
+<li><p>Y asli = 2</p></li>
+<li><p>Y prediksi = 2.50</p></li>
+</ul>
+<p>Maka residual error dapat dihitung sebagai berikut:</p>
+<div class="math notranslate nohighlight">
+\[
+Residual\ Error = 2 - 2.50
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+Residual\ Error = -0.50
+\]</div>
+<p>Nilai residual error negatif menunjukkan bahwa hasil prediksi model lebih besar dibandingkan nilai asli.</p>
+<p>Sedangkan jika residual error bernilai positif, maka nilai asli lebih besar dibandingkan nilai prediksi.</p>
+<p>Program juga menghitung residual kuadrat untuk mengetahui besar kesalahan prediksi tanpa dipengaruhi nilai negatif.</p>
+<p>Dari hasil perhitungan diperoleh nilai Mean Squared Error sebesar:</p>
+<div class="math notranslate nohighlight">
+\[
+MSE = 0.814285714285714
+\]</div>
+<p>Nilai tersebut menunjukkan rata-rata kesalahan kuadrat dari model regresi linier yang digunakan.</p>
+<p>Semakin kecil nilai MSE, maka model regresi yang dihasilkan semakin baik karena kesalahan prediksi semakin kecil.</p>
+<p>Berdasarkan grafik regresi linier yang dihasilkan, terlihat bahwa garis regresi mengikuti pola data yang cenderung meningkat.</p>
+<p>Hal tersebut menunjukkan adanya hubungan positif antara variabel X dan variabel Y, dimana semakin besar nilai X maka nilai Y juga cenderung meningkat.</p>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="visualisasi-grafik">
+<h1>8. Visualisasi Grafik<a class="headerlink" href="#visualisasi-grafik" title="Link to this heading">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="menggunakan-geogebra">
+<h1>8.1 Menggunakan GeoGebra<a class="headerlink" href="#menggunakan-geogebra" title="Link to this heading">#</a></h1>
+<p>Visualisasi regresi linier juga dilakukan menggunakan aplikasi GeoGebra.</p>
+<p>GeoGebra digunakan untuk menampilkan titik-titik data serta garis regresi berdasarkan data X dan Y yang digunakan pada penelitian ini.</p>
+<p>Pada grafik terlihat bahwa titik-titik data cenderung mengikuti arah garis regresi yang meningkat.</p>
+<p>Selain itu, pada GeoGebra juga diperoleh persamaan garis regresi sebagai berikut:</p>
+<div class="math notranslate nohighlight">
+\[
+y = 1.05x + 0.4
+\]</div>
+<p>Persamaan tersebut menunjukkan bahwa hubungan antara variabel X dan variabel Y bersifat positif.</p>
+<p>Semakin besar nilai X, maka nilai Y juga cenderung meningkat.</p>
+<p>Berikut adalah visualisasi grafik menggunakan GeoGebra:</p>
+<p><img alt="GeoGebra" src="../_images/25_geogebra.png" /></p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="menggunakan-matplotlib">
+<h1>8.2 Menggunakan Matplotlib<a class="headerlink" href="#menggunakan-matplotlib" title="Link to this heading">#</a></h1>
+<p>Visualisasi grafik juga dilakukan menggunakan library <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> pada Python.</p>
+<p>Grafik menampilkan titik data asli dan garis regresi hasil prediksi model.</p>
+<p>Titik data asli ditampilkan menggunakan <code class="docutils literal notranslate"><span class="pre">plt.scatter()</span></code>, sedangkan garis regresi ditampilkan menggunakan <code class="docutils literal notranslate"><span class="pre">plt.plot()</span></code>.</p>
+<p>Berdasarkan grafik yang dihasilkan, garis regresi terlihat mengikuti pola data yang cenderung meningkat.</p>
+<p>Hal tersebut menunjukkan bahwa model regresi linier berhasil menggambarkan hubungan antara variabel X dan variabel Y.</p>
+<p>Berikut adalah visualisasi grafik menggunakan <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>:</p>
+<p><img alt="Matplotlib" src="../_images/26_python.png" /></p>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="kesimpulan">
+<h1>9. Kesimpulan<a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h1>
+<p>Berdasarkan hasil analisis data menggunakan metode regresi linier, diperoleh persamaan garis regresi sebagai berikut:</p>
+<div class="math notranslate nohighlight">
+\[
+y = 1.05x + 0.4
+\]</div>
+<p>Model regresi linier berhasil digunakan untuk menghitung hubungan antara variabel X dan variabel Y berdasarkan data yang digunakan.</p>
+<p>Hasil analisis menunjukkan bahwa variabel X dan variabel Y memiliki hubungan positif, dimana semakin besar nilai X maka nilai Y juga cenderung meningkat.</p>
+<p>Program juga berhasil menghitung nilai prediksi, residual error, residual kuadrat, dan Mean Squared Error (MSE).</p>
+<p>Nilai Mean Squared Error yang diperoleh adalah:</p>
+<div class="math notranslate nohighlight">
+\[
+MSE = 0.814285714285714
+\]</div>
+<p>Nilai tersebut menunjukkan rata-rata kesalahan prediksi dari model regresi linier yang digunakan.</p>
+<p>Selain itu, visualisasi grafik menggunakan GeoGebra dan <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> menunjukkan bahwa garis regresi mengikuti pola data yang cenderung meningkat.</p>
+<p>Dengan demikian, program regresi linier yang dibuat telah berhasil melakukan analisis data dan menghasilkan model prediksi yang sesuai dengan data yang digunakan.</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./md"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="09_random_forest.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Analisa Data Menggunakan Random Forest untuk Prediksi pada Dataset Diabetes</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Analisis Data Menggunakan Regresi Linier</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contents">Contents</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-materi">1. Penjelasan Materi</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tugas">2. Tugas</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-yang-digunakan">3. Data yang Digunakan</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#kode-program-python">4. Kode Program Python</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-kode-program">5. Penjelasan Kode Program</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library">5.1 Import Library</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#membuat-data">5.2 Membuat Data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menentukan-variabel-x-dan-y">5.3 Menentukan Variabel X dan Y</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#membuat-model-regresi-linier">5.4 Membuat Model Regresi Linier</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mengambil-intercept-dan-koefisien">5.5 Mengambil Intercept dan Koefisien</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-nilai-prediksi">5.6 Menghitung Nilai Prediksi</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-residual-error">5.7 Menghitung Residual Error</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-residual-kuadrat">5.8 Menghitung Residual Kuadrat</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-mean-squared-error">5.9 Menghitung Mean Squared Error</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-grafik">5.10 Menampilkan Grafik</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-output-program">6. Hasil Output Program</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pembahasan-hasil">7. Pembahasan Hasil</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-grafik">8. Visualisasi Grafik</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menggunakan-geogebra">8.1 Menggunakan GeoGebra</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menggunakan-matplotlib">8.2 Menggunakan Matplotlib</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan">9. Kesimpulan</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alif Baiatur Ridhwan El Habibie
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
